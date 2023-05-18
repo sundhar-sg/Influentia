@@ -1,0 +1,12 @@
+{
+    "postedOn": "{{CurrentDate}}",
+    "isScheduledPost": true,
+    "publishedOnDate": "{{publishedOnDate}}",
+    "publishedOnTime": "{{publishedOnTime}}",
+    "postType": "Video",
+    "postContentText": "There is an trending research going on with AI and ML",
+    "postAttachmentURL": "https://www.linkedin.com/in/siddharrth/8325hj3vh253",
+    "postStatus": "Scheduled",
+    "username": "siddharrth",
+    "socialNetworkType": "LinkedIn"
+}

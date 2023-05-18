@@ -1,0 +1,40 @@
+package com.cognizant.influentia.contentms.dto;
+
+import java.util.*;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
+import jakarta.annotation.Nonnull;
+import lombok.*;
+
+@Data
+@Getter
+@Setter
+public class UserPostsDTO {
+	
+	private static Date date = new Date();
+	@Nonnull
+	private int id;
+	
+	@Value(value = date)
+	private Date postedOn;
+	
+	private boolean isScheduledPost;
+	
+	private Date publishedOnDate;
+	
+	private Date publishedOnTime;
+	
+	private String postType;
+	
+	private String postContentText;
+	
+	private String postAttachmentURL;
+	
+	private String postStatus;
+	
+	private String username;
+	
+	private String socialNetworkType;
+}

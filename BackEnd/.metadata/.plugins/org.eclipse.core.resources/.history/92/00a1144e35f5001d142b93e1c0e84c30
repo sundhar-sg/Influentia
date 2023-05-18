@@ -1,0 +1,73 @@
+package com.cognizant.influentia.contentms;
+
+import java.text.*;
+import java.util.Date;
+
+//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.ComponentScan;
+
+//import com.cognizant.influentia.contentms.entity.*;
+//import com.cognizant.influentia.contentms.repository.*;
+//import com.cognizant.influentia.contentms.service.*;
+
+@SpringBootApplication
+//@ComponentScan("com.cognizant.influentia.contentms")
+public class ContentMsApplication {
+
+//	@Autowired
+//	private ContentManagementService cmService;
+//	
+//	@Autowired
+//	private SubscriptionPlanLimitsRepository splRepo;
+	
+	Date date = new Date();
+	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+	SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
+	
+	public static void main(String[] args) {
+		SpringApplication.run(ContentMsApplication.class, args);
+	}
+
+    @Bean
+    CommandLineRunner commandLineRunner() {
+		return runner -> {
+			// System.out.println(cmService.cancelScheduledPost("Scheduled"));
+			
+			// cmService.getPlan(1);
+			
+			// System.out.println(cmService.filteredUserPosts("Quarter"));
+			
+			// cmService.addNewPost(new UserPosts(10, date, true, date, date, "Video", "First Video", "https://instagram.com/787248723", "Cancelled", "sundhar_sg", "Instagram"));
+			
+			// createSubscriptionPlan();
+			
+			// addNewPosts();
+		};
+	}
+
+//	private void addNewPosts() {
+//		// TODO Auto-generated method stub
+//		try {
+//			cmService.addNewPost(new UserPosts(date, true, sdf.parse("09-09-2023"), stf.parse("00:00:00"), "Video", "Wishing you a happy birthday my brother", "www.instagram.com/sundhar_sg/83412948sdfvnv12412", "Scheduled", "sundhar_sg", "Instagram"));
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	private void createSubscriptionPlan() {
+//		// TODO Auto-generated method stub
+//		SubscriptionPlanLimits subPlan = new SubscriptionPlanLimits("sundhar_sg", "Pro");
+//		SubscriptionPlanLimits subPlan1 = new SubscriptionPlanLimits("siddhu_rox", "Basic");
+//		SubscriptionPlanLimits subPlan2 = new SubscriptionPlanLimits("kishore_k", "Basic");
+//		SubscriptionPlanLimits subPlan3 = new SubscriptionPlanLimits("gokul_ap", "Pro");
+//		splRepo.save(subPlan);
+//		splRepo.save(subPlan1);
+//		splRepo.save(subPlan2);
+//		splRepo.save(subPlan3);
+//	}
+}

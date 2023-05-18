@@ -1,0 +1,19 @@
+package com.cognizant.influentia.contentms;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
+public class ContentMsApplication {
+	
+	public static void main(String[] args) {
+		SpringApplication.run(ContentMsApplication.class, args);
+	}
+
+    @Bean
+    public ModelMapper getModelMapper() {
+    	return new ModelMapper();
+    }
+}

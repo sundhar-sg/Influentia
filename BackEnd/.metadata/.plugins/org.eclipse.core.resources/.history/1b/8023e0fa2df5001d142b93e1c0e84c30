@@ -1,0 +1,6 @@
+package com.cognizant.influentia.contentms.dto;
+
+public class AnalyticsDTO {
+
+	
+}

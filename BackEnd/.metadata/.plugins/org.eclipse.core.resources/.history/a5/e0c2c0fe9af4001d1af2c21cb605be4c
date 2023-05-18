@@ -1,0 +1,36 @@
+package com.cognizant.influentia.contentms.dto;
+
+import java.util.*;
+
+import org.springframework.data.annotation.CreatedDate;
+
+import lombok.*;
+
+@Data
+@Getter
+@Setter
+public class UserPostsDTO {
+	
+	private int id;
+	
+	@CreatedDate
+	private Date postedOn;
+	
+	private boolean isScheduledPost;
+	
+	private Date publishedOnDate;
+	
+	private Date publishedOnTime;
+	
+	private String postType;
+	
+	private String postContentText;
+	
+	private String postAttachmentURL;
+	
+	private String postStatus;
+	
+	private String username;
+		
+	private String socialNetworkType;
+}
