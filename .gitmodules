@@ -1,0 +1,3 @@
+[submodule "FrontEnd/Influentia_CMS"]
+	path = FrontEnd/Influentia_CMS
+	url = https://github.com/sundhar-sg/Influentia_CMS_FrontEnd.git
