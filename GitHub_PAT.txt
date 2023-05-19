@@ -1,3 +1,7 @@
-GitHub PAT
+GitHub PAT for Work
 
-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
+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
+
+GitHub PAT for Personal
+
+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
