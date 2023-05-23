@@ -3689,3 +3689,42 @@ Caused by: org.eclipse.core.runtime.OperationCanceledException: null
 2023-05-18 17:34:15,681 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource
 2023-05-18 17:34:15,682 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource
 2023-05-18 17:34:15,690 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
+2023-05-20 18:13:20,274 [Worker-3: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2023-05-20 18:13:20,680 [Worker-0: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.influentia:ContentMS:0.0.1-SNAPSHOT @ D:\Projects\Influentia_CMS\BackEnd\Influentia_CMS\pom.xml.
+2023-05-20 18:13:50,500 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
+2023-05-20 18:13:50,672 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
+2023-05-20 18:13:50,679 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
+2023-05-20 18:13:51,243 [Worker-0: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of Influentia_CMS
+2023-05-20 18:13:51,246 [Worker-0: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for Influentia_CMS
+2023-05-20 18:13:51,844 [Worker-13: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2023-05-20 18:13:53,073 [Worker-13: Updating Maven Project] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.influentia:ContentMS:0.0.1-SNAPSHOT @ D:\Projects\Influentia_CMS\BackEnd\Influentia_CMS\pom.xml.
+2023-05-20 18:13:55,651 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Influentia_CMS/src/main/java
+2023-05-20 18:13:55,652 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Influentia_CMS/src/main/resources
+2023-05-20 18:13:55,653 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Influentia_CMS/src/main/resources
+2023-05-20 18:13:55,654 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Influentia_CMS/src/test/java
+2023-05-20 18:13:55,655 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Influentia_CMS/src/test/resources
+2023-05-20 18:14:00,819 [Worker-13: Updating Maven Project] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for Influentia_CMS
+2023-05-20 18:14:00,899 [Worker-13: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed for 1 poms: local refresh takes 0.00 sec, refresh facades takes 3.00 sec, update config takes 5.00 sec 
+2023-05-20 18:14:00,942 [Worker-13: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2023-05-20 18:14:01,894 [Worker-13: Updating Maven Project] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.influentia:ContentMS:0.0.1-SNAPSHOT @ D:\Projects\Influentia_CMS\BackEnd\Influentia_CMS\pom.xml.
+2023-05-20 18:14:03,200 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Influentia_CMS/src/main/java
+2023-05-20 18:14:03,201 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Influentia_CMS/src/main/resources
+2023-05-20 18:14:03,201 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Influentia_CMS/src/main/resources
+2023-05-20 18:14:03,202 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Influentia_CMS/src/test/java
+2023-05-20 18:14:03,203 [Worker-13: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Influentia_CMS/src/test/resources
+2023-05-20 18:14:05,558 [Worker-13: Updating Maven Project] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for Influentia_CMS
+2023-05-20 18:14:05,602 [Worker-13: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed for 1 poms: local refresh takes 0.00 sec, refresh facades takes 2.00 sec, update config takes 2.00 sec 
+2023-05-20 18:14:07,647 [Worker-5: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
+2023-05-20 18:14:07,703 [Worker-5: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
+2023-05-20 18:14:07,715 [Worker-5: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
+2023-05-20 18:14:07,718 [Worker-5: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of Influentia_CMS
+2023-05-20 18:14:07,718 [Worker-5: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for Influentia_CMS
+2023-05-20 18:14:18,111 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource
+2023-05-20 18:14:18,112 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource
+2023-05-20 18:14:18,173 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
+2023-05-20 18:15:47,353 [Worker-11: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
+2023-05-20 18:15:47,387 [Worker-11: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource
+2023-05-20 18:15:47,395 [Worker-11: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource
+2023-05-20 18:16:41,657 [Worker-1: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource
+2023-05-20 18:16:41,658 [Worker-1: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource
+2023-05-20 18:16:41,666 [Worker-1: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
