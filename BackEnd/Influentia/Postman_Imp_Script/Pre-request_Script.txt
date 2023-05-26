@@ -1,0 +1,8 @@
+let moment = require('moment');
+pm.globals.set("CurrentDate", moment().format("DD-MM-yyyy"));
+
+pm.globals.set("publishedOnDate", moment("2023-05-18 18:00:00").format("DD-MM-yyyy"));
+pm.globals.set("publishedOnTime", moment("2023-05-18 18:00:00").format("HH:mm:ss"));
+
+// .subtract(5, 'hours').subtract(30, 'minutes')
+// moment.tz.setDefault("Asia/Kolkata");
