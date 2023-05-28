@@ -4,14 +4,18 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.cognizant.influentia.contentms.dto.*;
 import com.cognizant.influentia.contentms.entity.*;
 import com.cognizant.influentia.contentms.service.*;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/content")
+@Validated
 public class ContentMSController {
 	
 	@Autowired
@@ -23,8 +27,8 @@ public class ContentMSController {
 	}
 	
 	@PostMapping("/add")
-	public ResponseEntity<UserPosts> addNewUserPosts(@RequestBody UserPosts userpost) {
-		UserPosts createdPost = cmService.addNewPost(userpost);
+	public ResponseEntity<UserPosts> addNewUserPosts(@RequestBody @Valid UserPostsDTO userPostDTO) {
+		UserPosts createdPost = cmService.addNewPost(userPostDTO);
 		return new ResponseEntity<UserPosts>(createdPost, HttpStatus.CREATED);
 	}
 	

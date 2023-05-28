@@ -1,5 +1,6 @@
 package com.cognizant.influentia.contentms.service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import org.modelmapper.ModelMapper;
@@ -32,7 +33,10 @@ public class ContentManagementServiceImpl implements ContentManagementService {
 	}
 	
 	@Override
-	public UserPosts addNewPost(UserPosts userPost) {
+	public UserPosts addNewPost(UserPostsDTO userPostDTO) {
+		LocalDateTime publishedOnTimestamp = userPostDTO.getPublishedOnTimestamp();
+		userPostDTO.setPublishedOnTime(publishedOnTimestamp.toLocalTime());
+		UserPosts userPost = this.modelMapper.map(userPostDTO, UserPosts.class);
 		return upRepo.save(userPost);
 	}
 	

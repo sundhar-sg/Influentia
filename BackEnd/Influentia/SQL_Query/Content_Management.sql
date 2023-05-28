@@ -1,5 +1,7 @@
 create database InfluentiaDB;
 
+
+
 use InfluentiaDB;
 
 create table UserPosts(

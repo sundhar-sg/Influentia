@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.text.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
@@ -36,8 +40,8 @@ class ContentManagementServiceTest {
 	ContentManagementServiceImpl cmService;
 	
 	Date currentDate = new Date();
-	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-	SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
+	DateTimeFormatter dtfDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	DateTimeFormatter dtfTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 /*
  * org.opentest4j.AssertionFailedError: expected: 
  * <[UserPosts [id=0, postedOn=null, isScheduledPost=false, publishedOnDate=null, publishedOnTime=null, postType=null, postContextText=null, postAttachmentURL=null, postStatus=null, username=null, socialNetworkType=null]]> but was: 
@@ -51,7 +55,7 @@ class ContentManagementServiceTest {
 		when(subsPLRepo.findById(1).get()).thenReturn(subscription);
 		SubscriptionPlanLimitsDTO subsByService = this.cmService.getPlan(1);
 		SubscriptionPlanLimitsDTO subsByRepo = this.modelMapper.map(subscription, SubscriptionPlanLimitsDTO.class);
-		verify(this.subsPLRepo).findById(1).get();
+		verify(this.modelMapper.map((this.subsPLRepo).findById(1).get(), SubscriptionPlanLimitsDTO.class));
 		assertEquals(subsByRepo, subsByService);
 //		SubscriptionPlanLimits subsPL = cmService.getPlan(1);
 //		assertThat(subsPL.getUserName()).isEqualTo("sundhar_sg");
@@ -61,15 +65,16 @@ class ContentManagementServiceTest {
 
 	@Test
 	void testAddNewPost() throws ParseException {
-		UserPosts userPost = new UserPosts(currentDate, true, sdf.parse("27-01-2024"), stf.parse("00:00:00"), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
+		UserPosts userPost = new UserPosts(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalTime.parse("00:00:00", dtfTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
+		UserPostsDTO userPostDTO = new UserPostsDTO(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalDateTime.parse("27-01-2024 00:00:00", dtfTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
 		when(this.upRepo.save(any())).thenReturn(userPost);
-		UserPosts serviceUP = this.cmService.addNewPost(userPost);
+		UserPosts serviceUP = this.cmService.addNewPost(userPostDTO);
 		assertEquals(serviceUP, userPost);
 	}
 
 	@Test
 	void testCancelScheduledPost() throws ParseException {
-		UserPosts userPost = new UserPosts(currentDate, true, sdf.parse("28-01-2024"), stf.parse("00:00:00"), "Video", "Wishing you a very happy birthday my mentor", "https://instagram.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "kishore_k", "Instagram");
+		UserPosts userPost = new UserPosts(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalTime.parse("00:00:00", dtfTime), "Video", "Wishing you a very happy birthday my mentor", "https://instagram.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "kishore_k", "Instagram");
 		int noOfUpdateRequired = 1;
 		when(this.upRepo.cancelScheduledPost(any(String.class), any(Integer.class))).thenReturn(noOfUpdateRequired);
 		int noOfUpdations = this.cmService.cancelScheduledPost(userPost.getUsername(), userPost.getId());

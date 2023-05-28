@@ -14,7 +14,7 @@ public interface ContentManagementService {
 	
 	UserPostsDTO getUserPostById(Integer id);
 
-	UserPosts addNewPost(UserPosts userPost);
+	UserPosts addNewPost(UserPostsDTO userPostDTO);
 
 	int cancelScheduledPost(String username, int id);
 

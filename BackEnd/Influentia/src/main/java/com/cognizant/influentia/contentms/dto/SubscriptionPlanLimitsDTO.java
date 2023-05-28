@@ -11,7 +11,7 @@ import lombok.*;
 public class SubscriptionPlanLimitsDTO {
 
 	@NotEmpty
-	@Pattern(regexp = "^((?i)Pro|Basic(?-i))", message = "The Plan Name should be any one of Pro and Basic subscriptions")
+	@Pattern(regexp = "^(?i)(Pro|Basic)$", message = "The Subscription Plan Name should be any one of Pro and Basic subscriptions")
 	private String subscriptionPlanName;
 	
 	@NotEmpty
