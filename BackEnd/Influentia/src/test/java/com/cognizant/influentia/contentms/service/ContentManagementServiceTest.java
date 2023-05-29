@@ -1,5 +1,6 @@
 package com.cognizant.influentia.contentms.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -17,13 +18,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.autoconfigure.jdbc.*;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ContextConfiguration;
 
+import com.cognizant.influentia.config.ContentMSDataSourceConfiguration;
 import com.cognizant.influentia.contentms.dto.SubscriptionPlanLimitsDTO;
 import com.cognizant.influentia.contentms.dto.UserPostsDTO;
 import com.cognizant.influentia.contentms.entity.*;
 import com.cognizant.influentia.contentms.repository.*;
 
 @DataJpaTest
+@ContextConfiguration(classes = ContentMSDataSourceConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ExtendWith(MockitoExtension.class)
 class ContentManagementServiceTest {
@@ -41,7 +45,8 @@ class ContentManagementServiceTest {
 	
 	Date currentDate = new Date();
 	DateTimeFormatter dtfDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-	DateTimeFormatter dtfTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	DateTimeFormatter dtfTime = DateTimeFormatter.ofPattern("HH:mm:ss");
+	DateTimeFormatter dtfDateTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 /*
  * org.opentest4j.AssertionFailedError: expected: 
  * <[UserPosts [id=0, postedOn=null, isScheduledPost=false, publishedOnDate=null, publishedOnTime=null, postType=null, postContextText=null, postAttachmentURL=null, postStatus=null, username=null, socialNetworkType=null]]> but was: 
@@ -50,23 +55,19 @@ class ContentManagementServiceTest {
  */
 	@Test
 	void testGetPlan() {
-		SubscriptionPlanLimits subscription = new SubscriptionPlanLimits("Pro", 150);
+		SubscriptionPlanLimits subscription = new SubscriptionPlanLimits();
 		
-		when(subsPLRepo.findById(1).get()).thenReturn(subscription);
-		SubscriptionPlanLimitsDTO subsByService = this.cmService.getPlan(1);
+		when(subsPLRepo.findById(1)).thenReturn(Optional.of(subscription));
+		SubscriptionPlanLimitsDTO subsByService = cmService.getPlan(1);
 		SubscriptionPlanLimitsDTO subsByRepo = this.modelMapper.map(subscription, SubscriptionPlanLimitsDTO.class);
-		verify(this.modelMapper.map((this.subsPLRepo).findById(1).get(), SubscriptionPlanLimitsDTO.class));
+		verify(subsPLRepo).findById(1);
 		assertEquals(subsByRepo, subsByService);
-//		SubscriptionPlanLimits subsPL = cmService.getPlan(1);
-//		assertThat(subsPL.getUserName()).isEqualTo("sundhar_sg");
-//		assertThat(subsPL.getSubscriptionPlanName()).isEqualTo("Pro");
-//		assertThat(subsPL.getMonthlyScheduledPostLimit()).isEqualTo(150);
 	}
 
 	@Test
 	void testAddNewPost() throws ParseException {
 		UserPosts userPost = new UserPosts(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalTime.parse("00:00:00", dtfTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
-		UserPostsDTO userPostDTO = new UserPostsDTO(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalDateTime.parse("27-01-2024 00:00:00", dtfTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
+		UserPostsDTO userPostDTO = new UserPostsDTO(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalDateTime.parse("27-01-2024 00:00:00", dtfDateTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
 		when(this.upRepo.save(any())).thenReturn(userPost);
 		UserPosts serviceUP = this.cmService.addNewPost(userPostDTO);
 		assertEquals(serviceUP, userPost);

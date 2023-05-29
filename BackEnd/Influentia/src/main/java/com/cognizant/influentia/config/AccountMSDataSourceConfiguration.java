@@ -47,12 +47,13 @@ public class AccountMSDataSourceConfiguration {
 		em.setDataSource(accountMSDataSource());
 		em.setPackagesToScan(new String[] {"com.cognizant.influentia.accountms.entity"});
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		vendorAdapter.setShowSql(true);
+		vendorAdapter.setGenerateDdl(true);
 		em.setJpaVendorAdapter(vendorAdapter);
 		HashMap<String, Object> properties = new HashMap<>();
 		properties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
-		properties.put("hibernate.dialect", env.getProperty("spring.jpa.database-platform"));
-		properties.put("hibernate.show-sql", true);
-		properties.put("hibernate.format_sql", true);
+		properties.put("hibernate.dialect", env.getProperty("spring.jpa.database-platform"));		
+		properties.put("hibernate.format_sql", env.getProperty("spring.jpa.properties.hibernate.format_sql"));
 		em.setJpaPropertyMap(properties);
 		return em;
 	}

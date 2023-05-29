@@ -14,6 +14,6 @@ public class SubscriptionPlanLimitsDTO {
 	@Pattern(regexp = "^(?i)(Pro|Basic)$", message = "The Subscription Plan Name should be any one of Pro and Basic subscriptions")
 	private String subscriptionPlanName;
 	
-	@NotEmpty
+	@NotNull
 	private int monthlyScheduledPostLimit;
 }

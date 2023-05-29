@@ -10,39 +10,56 @@ import org.springframework.web.bind.annotation.*;
 import com.cognizant.influentia.contentms.dto.*;
 import com.cognizant.influentia.contentms.entity.*;
 import com.cognizant.influentia.contentms.service.*;
+import com.cognizant.influentia.exception.GlobalExceptionHandler;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/content")
 @Validated
+@Slf4j
 public class ContentMSController {
 	
 	@Autowired
 	ContentManagementService cmService;
+	
+	@Autowired
+	GlobalExceptionHandler excHandler;
 
 	@GetMapping("/getSubsPlanLimits/{SubscriberID}")
 	public SubscriptionPlanLimitsDTO fetchSubsPLById(@PathVariable("SubscriberID") int id) {
-		return cmService.getPlan(id);
+		try {
+			return cmService.getPlan(id);
+		} catch(NoSuchElementException ex) {
+			log.error("Subscription plans with their limits for the provided ID: {} is not found", id);
+			throw new NoSuchElementException("There is no subscription plan with limits found for the provided ID: " +id);
+		}
 	}
 	
 	@PostMapping("/add")
 	public ResponseEntity<UserPosts> addNewUserPosts(@RequestBody @Valid UserPostsDTO userPostDTO) {
 		UserPosts createdPost = cmService.addNewPost(userPostDTO);
-		return new ResponseEntity<UserPosts>(createdPost, HttpStatus.CREATED);
+		return new ResponseEntity<UserPosts>(createdPost, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{username}")
 	public ResponseEntity<List<UserPostsDTO>> getUserPostsOfUser(@PathVariable("username") String username) {
-		return new ResponseEntity<List<UserPostsDTO>>(cmService.getUserPostsByUserName(username), HttpStatus.FOUND);
+		try {
+			return new ResponseEntity<List<UserPostsDTO>>(cmService.getUserPostsByUserName(username), HttpStatus.FOUND);
+		} catch(NoSuchElementException ex) {
+			log.error("UserPosts with the specified username: {} are not found", username);
+			throw new NoSuchElementException("There are no user posts found with the given username: " +username);
+		}
 	}
 	
 	@PutMapping("/{Username}/cancel/{PostID}")
 	public ResponseEntity<String> cancelScheduledPost(@PathVariable("Username") String username, @PathVariable("PostID") int id) {
-		int numberOfUpdations = cmService.cancelScheduledPost(username, id);
-		if(numberOfUpdations > 0)
-			return new ResponseEntity<String>("Successfully cancelled a post :)", HttpStatus.ACCEPTED);
-		return new ResponseEntity<String>("Failed in cancelling the post :(", HttpStatus.BAD_REQUEST);
+		int numberofUpdations = cmService.cancelScheduledPost(username, id);
+		if(numberofUpdations > 0)
+			return new ResponseEntity<String>("Successfully cancelled a post :)", HttpStatus.OK);
+		log.error("Cancelling the user post is not possible as there is no posts with username: {} and post ID: {}", username, id);
+		throw new NoSuchElementException("Failed in cancelling the user post with username: " +username+ " and ID: " +id);
 	}
 	
 	@GetMapping("/analytics")
@@ -50,6 +67,7 @@ public class ContentMSController {
 		List<UserPostsDTO> finalResult = cmService.filteredUserPosts(parameterList);
 		if(finalResult.size() >= 1)
 			return new ResponseEntity<List<UserPostsDTO>>(finalResult, HttpStatus.FOUND);
-		return new ResponseEntity<List<UserPostsDTO>>(HttpStatus.NOT_FOUND);
+		log.error("There are no user posts available for the logged in user with the specified analytics :(");
+		throw new NoSuchElementException("No User Posts found for the logged in user with the specified analytics type: " +parameterList.get("insightType"));
 	}
 }
