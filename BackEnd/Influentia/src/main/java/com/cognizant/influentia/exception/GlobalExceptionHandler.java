@@ -37,4 +37,11 @@ public class GlobalExceptionHandler {
 	public String handleNullPointerException(Exception ex) {
 		return ex.getMessage();
 	}
+	
+	@ExceptionHandler(ResourceQuotaExceededException.class)
+	@ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+	@ResponseBody
+	public String handleResourceQuotaExceededException(ResourceQuotaExceededException ex) {
+		return ex.getMessage();
+	}
 }

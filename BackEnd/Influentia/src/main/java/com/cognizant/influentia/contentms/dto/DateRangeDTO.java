@@ -1,11 +1,12 @@
 package com.cognizant.influentia.contentms.dto;
 
-import java.util.*;
+import java.time.LocalDate;
 
-import jakarta.validation.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.validation.constraints.*;
 import lombok.*;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -13,8 +14,12 @@ import lombok.*;
 public class DateRangeDTO {
 
 	@NotEmpty
-	private Date fromDate;
+	@NotNull
+	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "IST")
+	private LocalDate fromDate;
 	
 	@NotEmpty
-	private Date toDate;
+	@NotNull
+	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "IST")
+	private LocalDate toDate;
 }

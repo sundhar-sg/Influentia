@@ -1,45 +1,33 @@
 package com.cognizant.influentia.subscriptionms.dto;
 
-import java.util.*;
-
 import lombok.*;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class NewUserSubscriptionDTO {
-
-	@Id
-	private int subscriptionID;
 	
+	@NotNull
+	private int planID;
+
 	@NotEmpty
 	@NotNull
 	private String userName;
 	
-	@Future
-	@NotEmpty
 	@NotNull
-	private Date subscriptionStartDate;
-	
-	@Future
-	@NotEmpty
-	@NotNull
-	private Date subscriptionEndDate;
+	private int validityDuration;
 	
 	@NotEmpty
 	@NotNull
-	private int amountPaid;
-	
-	@NotEmpty
-	@NotNull
-	@Pattern(regexp = "(?i)(?:card|netbanking)", message = "The Payment mode can be either Card or NetBanking")
+	@Pattern(regexp = "^(?i)(Card|NetBanking)$", message = "The Payment mode can be either Card or NetBanking")
 	private String paymentMode;
 	
-	@NotEmpty
-	@NotNull
-	@Pattern(regexp = "(?i)(?:new)", message = "The Subscription status can be only New for New subscribers")
-	private String subscriptionStatus;
+	public NewUserSubscriptionDTO(int planID, String userName, int validityDuration, String paymentMode) {
+		super();
+		this.planID = planID;
+		this.userName = userName;
+		this.validityDuration = validityDuration;
+		this.paymentMode = paymentMode;
+	}
 }

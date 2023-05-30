@@ -16,7 +16,7 @@ public class SubscriptionPlansDTO {
 	@NotEmpty
 	private int planID;
 	
-	@Pattern(regexp = "(?i)(?:pro|basic)")
+	@Pattern(regexp = "^(?i)(Pro|Basic)$", message = "The available plans for availing subscription is either Pro (or) Basic")
 	@NotEmpty
 	private String planName;
 	

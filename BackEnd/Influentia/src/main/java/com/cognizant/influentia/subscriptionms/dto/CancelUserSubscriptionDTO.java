@@ -1,10 +1,10 @@
 package com.cognizant.influentia.subscriptionms.dto;
 
-import java.util.*;
+import java.time.LocalDate;
 
-import com.cognizant.influentia.subscriptionms.entity.SubscriptionCancellations;
+import com.cognizant.influentia.subscriptionms.entity.UserSubscriptions;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -13,39 +13,17 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CancelUserSubscriptionDTO {
-
-	@Id
-	private int subscriptionID;
 	
-	@NotEmpty
 	@NotNull
-	private String userName;
+	@NotEmpty
+	private UserSubscriptions subscriptionID;
 	
-	@Future
-	@NotEmpty
 	@NotNull
-	private Date subscriptionStartDate;
+	@NotEmpty
+	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "IST")
+	private LocalDate cancellationDate;
 	
-	@Future
-	@NotEmpty
 	@NotNull
-	private Date subscriptionEndDate;
-	
 	@NotEmpty
-	@NotNull
-	private int amountPaid;
-	
-	@NotEmpty
-	@NotNull
-	@Pattern(regexp = "(?i)(?:card|netbanking)", message = "The Payment mode can be either Card or NetBanking")
-	private String paymentMode;
-	
-	@NotEmpty
-	@NotNull
-	@Pattern(regexp = "(?i)(?:cancel)", message = "The Subscription status can be only Cancel for subscribers if they wish to cancel their existing subscription")
-	private String subscriptionStatus;
-	
-	@NotEmpty
-	@NotNull
-	private SubscriptionCancellations subsCancelID;
+	private String cancellationReason;
 }

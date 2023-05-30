@@ -35,11 +35,11 @@ public class UserSubscriptionsDTO {
 	
 	@NotEmpty
 	@NotNull
-	@Pattern(regexp = "(?i)(?:card|netbanking)", message = "The Payment mode can be either Card or NetBanking")
+	@Pattern(regexp = "^(?i)(Card|NetBanking)$", message = "The Payment mode can be either Card or NetBanking")
 	private String paymentMode;
 	
 	@NotEmpty
 	@NotNull
-	@Pattern(regexp = "(?i)(?:new)", message = "The Subscription status can be either New, Renewed or Cancelled")
+	@Pattern(regexp = "^(?i)(New|Renewed|Cancelled)$", message = "The Subscription status can be either New, Renewed or Cancelled")
 	private String subscriptionStatus;
 }

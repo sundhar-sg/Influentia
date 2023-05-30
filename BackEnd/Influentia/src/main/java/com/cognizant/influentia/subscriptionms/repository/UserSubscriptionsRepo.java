@@ -1,5 +1,7 @@
 package com.cognizant.influentia.subscriptionms.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +20,7 @@ public interface UserSubscriptionsRepo extends JpaRepository<UserSubscriptions, 
 	
 	@Query(value = "SELECT * FROM UserSubscriptions WHERE userName = :userName", nativeQuery = true)
 	UserSubscriptions findSubscriptionByUsername(@Param("userName") String userName);
+	
+	@Query(value = "SELECT * FROM UserSubscriptions WHERE planID = :planID", nativeQuery = true)
+	List<UserSubscriptions> findUserSubscriptionsByPlanID(@Param("planID") int planID);
 }

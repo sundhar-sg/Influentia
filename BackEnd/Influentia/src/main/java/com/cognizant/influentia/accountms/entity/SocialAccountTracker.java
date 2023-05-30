@@ -1,6 +1,6 @@
 package com.cognizant.influentia.accountms.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -27,7 +27,7 @@ public class SocialAccountTracker {
 	@Column(name = "action_date", nullable = false, updatable = true)
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "IST")
-	private Date date;
+	private LocalDate date;
 	
 	@Column(name = "action", nullable = false, updatable = true)
 	private String action;

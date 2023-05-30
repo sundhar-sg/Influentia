@@ -1,6 +1,6 @@
 package com.cognizant.influentia.subscriptionms.entity;
 
-import java.util.*;
+import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -13,7 +13,6 @@ import lombok.*;
 @Table(name = "usersubscriptions")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class UserSubscriptions {
 
@@ -32,7 +31,6 @@ public class UserSubscriptions {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "subscriptionstartdate", nullable = false, updatable = true)
 	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "IST")
-	@Future(message = "The Subscription Start Date must be a future date")
 	private Date subscriptionStartDate;
 	
 	@Temporal(TemporalType.DATE)
@@ -42,7 +40,8 @@ public class UserSubscriptions {
 	private Date subscriptionEndDate;
 	
 	@Column(name = "amountpaid", nullable = false, updatable = true)
-	private int amountPaid;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "0.00")
+	private Double amountPaid;
 	
 	@Column(name = "payment_mode", nullable = false, updatable = true)
 	@Pattern(regexp = "^(?i)(NetBanking|Card)$", message = "The Payment Mode allowed for purchasing the Subscription Plan should be of either Net Banking (or) Card")
@@ -53,6 +52,17 @@ public class UserSubscriptions {
 	private String subscriptionStatus;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "subscription_cancellations_id")
+	@JoinColumn(name = "subscription_cancellations_id", nullable = true)
 	private SubscriptionCancellations subscriptionCancel;
+
+	public UserSubscriptions(String userName, SubscriptionPlans planID, Date subscriptionStartDate, Date subscriptionEndDate, Double amountPaid, String paymentMode, String subscriptionStatus) {
+		super();
+		this.userName = userName;
+		this.planID = planID;
+		this.subscriptionStartDate = subscriptionStartDate;
+		this.subscriptionEndDate = subscriptionEndDate;
+		this.amountPaid = amountPaid;
+		this.paymentMode = paymentMode;
+		this.subscriptionStatus = subscriptionStatus;
+	}
 }

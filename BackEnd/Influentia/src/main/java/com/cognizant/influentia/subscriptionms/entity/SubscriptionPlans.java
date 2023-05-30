@@ -10,7 +10,6 @@ import lombok.*;
 @Table(name = "subscriptionplans")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class SubscriptionPlans {
 
@@ -30,4 +29,13 @@ public class SubscriptionPlans {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
 	@JoinColumn(name = "planid")
 	private List<UserSubscriptions> listOfUsers;
+
+	public SubscriptionPlans(int planID,
+			@Pattern(regexp = "^(?i)(Pro|Basic)$", message = "The Plan Name should be of either Pro (or) Basic") String planName,
+			@Pattern(regexp = "^(25|10)$", message = "The Price per month of Subscription plan should be of either $25 (or) $10") int pricePerMonth) {
+		super();
+		this.planID = planID;
+		this.planName = planName;
+		this.pricePerMonth = pricePerMonth;
+	}
 }

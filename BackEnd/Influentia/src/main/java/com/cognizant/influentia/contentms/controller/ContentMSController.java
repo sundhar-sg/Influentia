@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ContentMSController {
 	
 	@Autowired
-	ContentManagementService cmService;
+	ContentMSService cmService;
 	
 	@Autowired
 	GlobalExceptionHandler excHandler;
