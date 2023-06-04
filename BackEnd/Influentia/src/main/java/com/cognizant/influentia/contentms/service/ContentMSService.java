@@ -7,6 +7,7 @@ import com.cognizant.influentia.contentms.dto.*;
 // import org.springframework.web.multipart.MultipartFile;
 
 import com.cognizant.influentia.contentms.entity.UserPosts;
+import com.cognizant.influentia.exception.ResourceQuotaExceededException;
 
 public interface ContentMSService {
 	
@@ -14,7 +15,7 @@ public interface ContentMSService {
 	
 	UserPostsDTO getUserPostById(Integer id);
 
-	UserPosts addNewPost(UserPostsDTO userPostDTO);
+	UserPosts addNewPost(UserPostsDTO userPostDTO) throws ResourceQuotaExceededException;
 
 	int cancelScheduledPost(String username, int id);
 

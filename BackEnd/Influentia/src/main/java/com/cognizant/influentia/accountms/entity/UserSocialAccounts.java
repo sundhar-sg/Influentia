@@ -36,7 +36,6 @@ public class UserSocialAccounts {
 	@Pattern(regexp = "^(?i)(Pro|Basic)$", message = "The Subscription Name when inserting a new Social Account can be either Pro (or) Basic")
 	private String subscriptionName;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
-	@JoinColumn(name = "socialaccount_id")
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "accountID")
 	private List<SocialAccountTracker> accountActivities;
 }

@@ -16,12 +16,12 @@ public class SubscriptionPlansDTO {
 	@NotEmpty
 	private int planID;
 	
-	@Pattern(regexp = "^(?i)(Pro|Basic)$", message = "The available plans for availing subscription is either Pro (or) Basic")
 	@NotEmpty
+	@Pattern(regexp = "^(?i)(Pro|Basic)$", message = "The available plans for availing subscription is either Pro (or) Basic")
 	private String planName;
 	
-	@Pattern(regexp = "^(25|10)$")
 	@NotEmpty
+	@Pattern(regexp = "^(25|10)$", message = "The Price per month of Subscription plan should be of either $25 (or) $10")
 	private int pricePerMonth;
 	
 	@NotEmpty

@@ -1,6 +1,5 @@
 package com.cognizant.influentia.contentms.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -25,6 +24,7 @@ import com.cognizant.influentia.contentms.dto.SubscriptionPlanLimitsDTO;
 import com.cognizant.influentia.contentms.dto.UserPostsDTO;
 import com.cognizant.influentia.contentms.entity.*;
 import com.cognizant.influentia.contentms.repository.*;
+import com.cognizant.influentia.exception.ResourceQuotaExceededException;
 
 @DataJpaTest
 @ContextConfiguration(classes = ContentMSDataSourceConfiguration.class)
@@ -38,7 +38,7 @@ class ContentMSServiceTest {
 	@Mock
 	SubscriptionPlanLimitsRepository subsPLRepo;
 
-	private ModelMapper modelMapper =new ModelMapper();
+	private ModelMapper modelMapper = new ModelMapper();
 	
 	@InjectMocks
 	ContentMSServiceImpl cmService;
@@ -47,12 +47,7 @@ class ContentMSServiceTest {
 	DateTimeFormatter dtfDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	DateTimeFormatter dtfTime = DateTimeFormatter.ofPattern("HH:mm:ss");
 	DateTimeFormatter dtfDateTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-/*
- * org.opentest4j.AssertionFailedError: expected: 
- * <[UserPosts [id=0, postedOn=null, isScheduledPost=false, publishedOnDate=null, publishedOnTime=null, postType=null, postContextText=null, postAttachmentURL=null, postStatus=null, username=null, socialNetworkType=null]]> but was: 
- * <[UserPostsDTO(id=0, postedOn=null, isScheduledPost=false, publishedOnDate=null, publishedOnTime=null, postType=null, postContentText=null, postAttachmentURL=null, postStatus=null, username=null, socialNetworkType=null)]>
 
- */
 	@Test
 	void testGetPlan() {
 		SubscriptionPlanLimits subscription = new SubscriptionPlanLimits();
@@ -65,7 +60,7 @@ class ContentMSServiceTest {
 	}
 
 	@Test
-	void testAddNewPost() throws ParseException {
+	void testAddNewPost() throws ParseException, ResourceQuotaExceededException {
 		UserPosts userPost = new UserPosts(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalTime.parse("00:00:00", dtfTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
 		UserPostsDTO userPostDTO = new UserPostsDTO(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalDateTime.parse("27-01-2024 00:00:00", dtfDateTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
 		when(this.upRepo.save(any())).thenReturn(userPost);

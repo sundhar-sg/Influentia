@@ -34,4 +34,7 @@ public interface UserPostsRepository extends JpaRepository<UserPosts, Integer> {
 	
 	@Query(value = "SELECT * FROM UserPosts WHERE username = :username", nativeQuery = true)
 	List<UserPosts> findAllUserPostsByUserName(@Param("username") String username);
+	
+	@Query(value = "SELECT COUNT(*) FROM UserPosts WHERE username = :username AND MONTH(publishedOnDate) = :publishedMonth AND postStatus = 'Scheduled'", nativeQuery = true)
+	int findNumberOfPostsBasedOnUserName(@Param("username") String username, @Param("publishedMonth") int publishedMonth);
 }

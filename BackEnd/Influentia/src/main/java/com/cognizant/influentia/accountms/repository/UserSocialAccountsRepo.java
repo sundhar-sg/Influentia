@@ -15,8 +15,14 @@ public interface UserSocialAccountsRepo extends JpaRepository<UserSocialAccounts
 	@Query(value = "SELECT * FROM UserSocialAccounts WHERE userName = :userName", nativeQuery = true)
 	List<UserSocialAccounts> findListOfAccountsForUser(@Param("userName") String username);
 	
+	@Query(value = "SELECT * FROM UserSocialAccounts WHERE socialAccountType_Id = :accountTypeID", nativeQuery = true)
+	List<UserSocialAccounts> findListOfAccountsBasedOnAccountTypes(@Param("accountTypeID") int accountTypeID);
+	
 	@Modifying(clearAutomatically = true)
 	@Transactional
-	@Query(value = "DELETE FROM UserSocialAccounts WHERE socialAccountTypeId = :socialAccountTypeID and userName = :username", nativeQuery = true)
+	@Query(value = "DELETE FROM UserSocialAccounts WHERE socialAccountType_Id = :socialAccountTypeID and userName = :username", nativeQuery = true)
 	int deleteAccount(@Param("socialAccountTypeID") int socialAccountTypeID, @Param("username") String userName);
+	
+	@Query(value = "SELECT * FROM UserSocialAccounts WHERE socialAccountType_Id = :socialAccountTypeID and userName = :username", nativeQuery = true)
+	UserSocialAccounts findUserSubscriptionByUserNameAndAccountTypeID(@Param("socialAccountTypeID") int accountTypeID, @Param("username") String userName);
 }

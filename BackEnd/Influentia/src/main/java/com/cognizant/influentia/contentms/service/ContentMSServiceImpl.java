@@ -11,8 +11,14 @@ import org.springframework.stereotype.Service;
 import com.cognizant.influentia.contentms.dto.*;
 import com.cognizant.influentia.contentms.entity.*;
 import com.cognizant.influentia.contentms.repository.*;
+import com.cognizant.influentia.exception.ResourceQuotaExceededException;
+import com.cognizant.influentia.subscriptionms.entity.UserSubscriptions;
+import com.cognizant.influentia.subscriptionms.repository.UserSubscriptionsRepo;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class ContentMSServiceImpl implements ContentMSService {
 	
 	@Autowired
@@ -21,7 +27,11 @@ public class ContentMSServiceImpl implements ContentMSService {
 	@Autowired
 	private SubscriptionPlanLimitsRepository subsPLRepo;
 	
-	private ModelMapper modelMapper=new ModelMapper();
+	@Autowired
+	private UserSubscriptionsRepo userSubscriptionsRepo;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	Scanner sc = new Scanner(System.in);
 	
@@ -33,7 +43,22 @@ public class ContentMSServiceImpl implements ContentMSService {
 	}
 	
 	@Override
-	public UserPosts addNewPost(UserPostsDTO userPostDTO) {
+	public UserPosts addNewPost(UserPostsDTO userPostDTO) throws ResourceQuotaExceededException {
+		String username = userPostDTO.getUsername();
+		UserSubscriptions subscriptionPlan = this.userSubscriptionsRepo.findSubscriptionByUsername(username);
+		if(subscriptionPlan == null) {
+			log.error("There is no subscription plan associated with the given username. First, Get a subscription plan instead");
+			throw new IllegalArgumentException("You haven't any active subscription for your account. Get a subscription plan instead :)");
+		}
+		int numberOfPosts = this.upRepo.findNumberOfPostsBasedOnUserName(username, userPostDTO.getPublishedOnDate().getMonthValue());
+		System.out.println("Number of Posts: " + String.valueOf(numberOfPosts));
+		if((numberOfPosts >= 5) && (subscriptionPlan.getPlanID().getPlanName().equalsIgnoreCase("Basic"))) {
+			log.error("You have reached the posts limit for your existing subscription. Wait till next month or upgrade your subscription");
+			throw new ResourceQuotaExceededException("You have reached the posts limit for your existing subscription. Wait till next month or upgrade your subscription");
+		} else if((numberOfPosts >= 150) && (subscriptionPlan.getPlanID().getPlanName().equalsIgnoreCase("Pro"))) {
+			log.error("You have reached the posts limit for your existing subscription. Wait till next month for adding new posts");
+			throw new ResourceQuotaExceededException("You have reached the posts limit for your existing subscription. Wait till next month for adding new posts");
+		}
 		LocalDateTime publishedOnTimestamp = userPostDTO.getPublishedOnTimestamp();
 		userPostDTO.setPublishedOnTime(publishedOnTimestamp.toLocalTime());
 		UserPosts userPost = this.modelMapper.map(userPostDTO, UserPosts.class);

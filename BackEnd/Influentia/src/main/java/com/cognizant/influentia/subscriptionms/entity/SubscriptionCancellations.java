@@ -18,7 +18,7 @@ public class SubscriptionCancellations {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@OneToOne(mappedBy = "subscriptionCancel")
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "subscriptionCancel", orphanRemoval = true)
 	private UserSubscriptions subscriptionID;
 	
 	@Column(name = "cancellation_date", nullable = false, updatable = true)

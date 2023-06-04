@@ -16,14 +16,15 @@ public class NewUserSubscriptionDTO {
 	private String userName;
 	
 	@NotNull
-	private int validityDuration;
+	@Pattern(regexp = "^(1|3|6|12)$", message = "The Validity duration can be either 1, 3, 6 (or) 12 months / 1 year")
+	private String validityDuration;
 	
 	@NotEmpty
 	@NotNull
 	@Pattern(regexp = "^(?i)(Card|NetBanking)$", message = "The Payment mode can be either Card or NetBanking")
 	private String paymentMode;
 	
-	public NewUserSubscriptionDTO(int planID, String userName, int validityDuration, String paymentMode) {
+	public NewUserSubscriptionDTO(int planID, String userName, String validityDuration, String paymentMode) {
 		super();
 		this.planID = planID;
 		this.userName = userName;

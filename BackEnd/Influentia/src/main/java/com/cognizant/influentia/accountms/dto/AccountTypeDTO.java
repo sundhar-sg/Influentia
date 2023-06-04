@@ -11,6 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 public class AccountTypeDTO {
 	
+	@NotNull
+	private int id;
+	
 	@NotEmpty
 	@Pattern(regexp = "^(?i)(Facebook|Instagram|LinkedIn|Twitter|YouTube)$", message = "The account type for specifying the social account type can only be either Facebook (or) Instagram (or) LinkedIn (or) Twitter (or) YouTube")
 	private String accountType;

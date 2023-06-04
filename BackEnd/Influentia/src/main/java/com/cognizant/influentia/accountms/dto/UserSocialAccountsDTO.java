@@ -1,9 +1,5 @@
 package com.cognizant.influentia.accountms.dto;
 
-import java.util.List;
-
-import com.cognizant.influentia.accountms.entity.SocialAccountTracker;
-
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -13,21 +9,15 @@ import lombok.*;
 @NoArgsConstructor
 public class UserSocialAccountsDTO {
 	
-	@NotEmpty
-	private AccountTypeDTO accountTypeID;
+	@NotNull
+	private int accountTypeID;
 	
 	@NotEmpty
 	private String loginID;
 	
 	@NotEmpty
-	private String encryptedPassword;
+	private String password;
 	
 	@NotEmpty
 	private String username;
-	
-	@NotEmpty
-	@Pattern(regexp = "^(?i)(Pro|Basic)$", message = "The Subscription Name can only be either Pro (or) Basic")
-	private String subscriptionName;
-	
-	private List<SocialAccountTracker> accountActivities;
 }

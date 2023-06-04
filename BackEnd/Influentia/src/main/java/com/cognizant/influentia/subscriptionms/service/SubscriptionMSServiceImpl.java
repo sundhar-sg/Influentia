@@ -53,26 +53,14 @@ public class SubscriptionMSServiceImpl implements SubscriptionMSService {
 	@Override
 	public UserSubscriptions purchaseSubscription(NewUserSubscriptionDTO userSubscription) {
 		// TODO Auto-generated method stub
-		int validityDuration = userSubscription.getValidityDuration();
-		double finalAmount = 0;
-		int pricePerMonth = subscriptionPlansRepo.findById(userSubscription.getPlanID()).get().getPricePerMonth();
-		if(validityDuration == 3) {
-			if(subscriptionPlansRepo.findById(userSubscription.getPlanID()).get().getPlanName().equalsIgnoreCase("Pro"))
-				finalAmount = (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.05);
-			else
-				finalAmount = (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.03);
-		} else if(validityDuration == 6) {
-			if(subscriptionPlansRepo.findById(userSubscription.getPlanID()).get().getPlanName().equalsIgnoreCase("Pro"))
-				finalAmount = (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.1);
-			else
-				finalAmount = (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.05);
-		} else if(validityDuration == 12) {
-			if(subscriptionPlansRepo.findById(userSubscription.getPlanID()).get().getPlanName().equalsIgnoreCase("Pro"))
-				finalAmount = (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.15);
-			else
-				finalAmount = (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.08);
-		}
-		UserSubscriptions newSubscription = this.modelMapper.map(userSubscription, UserSubscriptions.class);
+		int validityDuration = Integer.parseInt(userSubscription.getValidityDuration());
+		SubscriptionPlans requestedSubscription = this.subscriptionPlansRepo.findById(userSubscription.getPlanID()).orElseThrow(() -> new IllegalArgumentException("Invalid Subscription plan ID"));;
+		int pricePerMonth = requestedSubscription.getPricePerMonth();
+		double finalAmount = calculateFinalAmount(validityDuration, pricePerMonth, userSubscription.getPlanID()) > 0 ? calculateFinalAmount(validityDuration, pricePerMonth, userSubscription.getPlanID()) : pricePerMonth;
+		UserSubscriptions newSubscription = new UserSubscriptions();
+		newSubscription.setPlanID(requestedSubscription);
+		newSubscription.setPaymentMode(userSubscription.getPaymentMode());
+		newSubscription.setUserName(userSubscription.getUserName());
 		newSubscription.setAmountPaid(finalAmount);
 		newSubscription.setSubscriptionStartDate(Date.valueOf(LocalDate.now()));
 		newSubscription.setSubscriptionEndDate(Date.valueOf(LocalDate.now().plusMonths(validityDuration)));
@@ -84,20 +72,30 @@ public class SubscriptionMSServiceImpl implements SubscriptionMSService {
 	@Override
 	public UserSubscriptions renewSubscription(int subscriptionID, RenewUserSubscriptionDTO userSubscription) {
 		// TODO Auto-generated method stub
-		UserSubscriptions fetchedResult = this.userSubscriptionsRepo.findById(subscriptionID).get();
-		fetchedResult = this.modelMapper.map(userSubscription, UserSubscriptions.class);
-		int validityDuration = userSubscription.getValidityDuration();
-		fetchedResult.setSubscriptionStartDate(Date.valueOf(LocalDate.now()));
-		fetchedResult.setSubscriptionEndDate(Date.valueOf(LocalDate.now().plusMonths(validityDuration)));
-		fetchedResult.setSubscriptionCancel(null);
-		return this.userSubscriptionsRepo.save(fetchedResult);
+		UserSubscriptions fetchedResult = this.userSubscriptionsRepo.findById(subscriptionID)
+	            .orElseThrow(() -> new IllegalArgumentException("Invalid User Subscription ID"));
+	    int validityDuration = Integer.parseInt(userSubscription.getValidityDuration());
+	    double finalAmount = calculateFinalAmount(validityDuration, fetchedResult.getPlanID().getPricePerMonth(), fetchedResult.getPlanID().getPlanID())
+	            > 0 ? calculateFinalAmount(validityDuration, fetchedResult.getPlanID().getPricePerMonth(), fetchedResult.getPlanID().getPlanID())
+	            : fetchedResult.getPlanID().getPricePerMonth();
+	    fetchedResult.setAmountPaid(finalAmount);
+	    fetchedResult.setSubscriptionStartDate(Date.valueOf(LocalDate.now()));
+	    fetchedResult.setSubscriptionEndDate(Date.valueOf(LocalDate.now().plusMonths(validityDuration)));
+	    fetchedResult.setSubscriptionStatus("Renewed");
+	    fetchedResult.setPaymentMode(userSubscription.getPaymentMode());
+	    fetchedResult.setSubscriptionCancel(null);
+	    return this.userSubscriptionsRepo.save(fetchedResult);
 	}
 
 	@Override
-	public SubscriptionCancellations cancelSubcription(int subscriptionID, CancelUserSubscriptionDTO userSubscription) {
+	public SubscriptionCancellations cancelSubscription(int subscriptionID, CancelUserSubscriptionDTO userSubscription) {
 		// TODO Auto-generated method stub
-		SubscriptionCancellations cancelSubs = this.subscriptionCancellationsRepo.save(this.modelMapper.map(userSubscription, SubscriptionCancellations.class));
-		UserSubscriptions fetchedResult = this.userSubscriptionsRepo.findById(subscriptionID).get();
+		SubscriptionCancellations cancelSubs = new SubscriptionCancellations();
+		cancelSubs.setCancellationDate(Date.valueOf(LocalDate.now()));
+		cancelSubs.setCancellationReason(userSubscription.getCancellationReason());
+		this.subscriptionCancellationsRepo.save(cancelSubs);
+		UserSubscriptions fetchedResult = this.userSubscriptionsRepo.findById(subscriptionID).orElseThrow(() -> new IllegalArgumentException("Invalid User Subscription ID"));
+		fetchedResult.setSubscriptionStatus("Cancelled");
 		fetchedResult.setSubscriptionCancel(cancelSubs);
 		this.userSubscriptionsRepo.save(fetchedResult);
 		return cancelSubs;
@@ -107,5 +105,25 @@ public class SubscriptionMSServiceImpl implements SubscriptionMSService {
 	public UserSubscriptionsDTO getSubscriptionPlanByUsername(String username) {
 		// TODO Auto-generated method stub
 		return this.modelMapper.map(this.userSubscriptionsRepo.findSubscriptionByUsername(username), UserSubscriptionsDTO.class);
+	}
+	
+	public Double calculateFinalAmount(int validityDuration, int pricePerMonth, int planID) {
+		if(validityDuration == 3) {
+			if(subscriptionPlansRepo.findById(planID).get().getPlanName().equalsIgnoreCase("Pro"))
+				return (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.05);
+			else
+				return (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.03);
+		} else if(validityDuration == 6) {
+			if(subscriptionPlansRepo.findById(planID).get().getPlanName().equalsIgnoreCase("Pro"))
+				return (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.1);
+			else
+				return (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.05);
+		} else if(validityDuration == 12) {
+			if(subscriptionPlansRepo.findById(planID).get().getPlanName().equalsIgnoreCase("Pro"))
+				return (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.15);
+			else
+				return (pricePerMonth * validityDuration) - (pricePerMonth * validityDuration * 0.08);
+		}
+		return (double) 0;
 	}
 }

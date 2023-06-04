@@ -51,8 +51,8 @@ public class UserSubscriptions {
 	@Pattern(regexp = "^(?i)(New|Renewed|Cancelled)$", message = "The Subscription Status should include values of either New (or) Renewed (or) Cancelled")
 	private String subscriptionStatus;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "subscription_cancellations_id", nullable = true)
+	@OneToOne
+	@JoinColumn(name = "subscription_cancel_id")
 	private SubscriptionCancellations subscriptionCancel;
 
 	public UserSubscriptions(String userName, SubscriptionPlans planID, Date subscriptionStartDate, Date subscriptionEndDate, Double amountPaid, String paymentMode, String subscriptionStatus) {

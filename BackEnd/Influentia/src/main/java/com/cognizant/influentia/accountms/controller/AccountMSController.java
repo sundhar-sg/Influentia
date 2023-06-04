@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.influentia.accountms.dto.AccountTypeDTO;
 import com.cognizant.influentia.accountms.dto.UserSocialAccountsDTO;
-import com.cognizant.influentia.accountms.entity.UserSocialAccounts;
 import com.cognizant.influentia.accountms.service.AccountMSService;
 import com.cognizant.influentia.exception.ResourceQuotaExceededException;
 
@@ -40,8 +39,8 @@ public class AccountMSController {
 	}
 	
 	@PostMapping("/addsocialaccount")
-	public ResponseEntity<UserSocialAccounts> addNewSocialAccount(@RequestBody @Valid UserSocialAccountsDTO userAccountDTO) throws ResourceQuotaExceededException {
-		return new ResponseEntity<UserSocialAccounts>(accountMSService.addNewSocialAccount(userAccountDTO), HttpStatus.OK);
+	public ResponseEntity<UserSocialAccountsDTO> addNewSocialAccount(@RequestBody @Valid UserSocialAccountsDTO userAccountDTO) throws ResourceQuotaExceededException {
+		return new ResponseEntity<UserSocialAccountsDTO>(accountMSService.addNewSocialAccount(userAccountDTO), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{username}/socialaccounts")

@@ -11,6 +11,7 @@ import com.cognizant.influentia.contentms.dto.*;
 import com.cognizant.influentia.contentms.entity.*;
 import com.cognizant.influentia.contentms.service.*;
 import com.cognizant.influentia.exception.GlobalExceptionHandler;
+import com.cognizant.influentia.exception.ResourceQuotaExceededException;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class ContentMSController {
 	}
 	
 	@PostMapping("/add")
-	public ResponseEntity<UserPosts> addNewUserPosts(@RequestBody @Valid UserPostsDTO userPostDTO) {
+	public ResponseEntity<UserPosts> addNewUserPosts(@RequestBody @Valid UserPostsDTO userPostDTO) throws ResourceQuotaExceededException {
 		UserPosts createdPost = cmService.addNewPost(userPostDTO);
 		return new ResponseEntity<UserPosts>(createdPost, HttpStatus.OK);
 	}

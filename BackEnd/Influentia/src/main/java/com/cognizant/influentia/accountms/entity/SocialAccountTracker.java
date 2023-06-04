@@ -1,10 +1,11 @@
 package com.cognizant.influentia.accountms.entity;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @Entity
@@ -21,14 +22,15 @@ public class SocialAccountTracker {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "socialaccount_id")
+	@JoinColumn(name = "useraccount_id", nullable = true)
 	private UserSocialAccounts accountID;
 	
 	@Column(name = "action_date", nullable = false, updatable = true)
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "IST")
-	private LocalDate date;
+	private Date date;
 	
 	@Column(name = "action", nullable = false, updatable = true)
+	@Pattern(regexp = "^(?i)(AccountAdded|AccountPasswordChanged|AccountRemoved)$", message = "The allowed actions to be taken on the social accounts can be either AccountAdded, AccountPasswordChanged (or) AccountRemoved")
 	private String action;
 }

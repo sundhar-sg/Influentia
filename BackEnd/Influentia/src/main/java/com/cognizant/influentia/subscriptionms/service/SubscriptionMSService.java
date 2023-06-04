@@ -18,7 +18,7 @@ public interface SubscriptionMSService {
 	
 	public UserSubscriptions renewSubscription(int subscriptionID, RenewUserSubscriptionDTO userSubscription);
 	
-	public SubscriptionCancellations cancelSubcription(int subscriptionID, CancelUserSubscriptionDTO userSubscription);
+	public SubscriptionCancellations cancelSubscription(int subscriptionID, CancelUserSubscriptionDTO userSubscription);
 	
 	public UserSubscriptionsDTO getSubscriptionPlanByUsername(String username);
 }

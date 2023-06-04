@@ -54,7 +54,7 @@ public class SubscriptionMSController {
 	@PutMapping("/{subscriptionid}/cancel")
 	public ResponseEntity<Void> cancelUserSubscription(@PathVariable("subscriptionid") int subscriptionID, @RequestBody @Valid CancelUserSubscriptionDTO cancelSubscription) {
 		try {
-			this.subscriptionMSService.cancelSubcription(subscriptionID, cancelSubscription);
+			this.subscriptionMSService.cancelSubscription(subscriptionID, cancelSubscription);
 			return ResponseEntity.ok().build();
 		} catch (NoSuchElementException ex) {
 			// TODO: handle exception
