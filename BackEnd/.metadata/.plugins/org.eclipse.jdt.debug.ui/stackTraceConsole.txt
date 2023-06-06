@@ -1,11 +1,8 @@
-org.opentest4j.AssertionFailedError: expected: <com.cognizant.influentia.subscriptionms.entity.SubscriptionCancellations@27ace0b1> but was: <com.cognizant.influentia.subscriptionms.entity.SubscriptionCancellations@4c59e45e>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1142)
-	at com.cognizant.influentia.subscriptionms.service.SubscriptionMSServiceTest.testCancelSubcription(SubscriptionMSServiceTest.java:166)
+java.util.NoSuchElementException: No value present
+	at java.base/java.util.Optional.get(Optional.java:143)
+	at com.cognizant.influentia.subscriptionms.service.SubscriptionMSServiceImpl.calculateFinalAmount(SubscriptionMSServiceImpl.java:117)
+	at com.cognizant.influentia.subscriptionms.service.SubscriptionMSServiceImpl.renewSubscription(SubscriptionMSServiceImpl.java:78)
+	at com.cognizant.influentia.subscriptionms.service.SubscriptionMSServiceTest.testRenewSubscription(SubscriptionMSServiceTest.java:128)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

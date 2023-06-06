@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.util.NoSuchElementException"/>
-    <fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
-    <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
-    <fullyQualifiedTypeName name="org.modelmapper.spi.Mapping"/>
     <fullyQualifiedTypeName name="org.modelmapper.PropertyMap"/>
     <fullyQualifiedTypeName name="org.modelmapper.AbstractConverter"/>
     <fullyQualifiedTypeName name="org.modelmapper.TypeToken"/>
@@ -17,7 +13,6 @@
     <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
     <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
     <fullyQualifiedTypeName name="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-    <fullyQualifiedTypeName name="com.cognizant.influentia.exception.ResourceQuotaExceededException"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest"/>
     <fullyQualifiedTypeName name="org.springframework.test.context.ContextConfiguration"/>
@@ -34,12 +29,9 @@
     <fullyQualifiedTypeName name="com.cognizant.influentia.accountms.entity.SocialAccountTypes"/>
     <fullyQualifiedTypeName name="org.springframework.security.crypto.password.PasswordEncoder"/>
     <fullyQualifiedTypeName name="org.junit.jupiter.api.function.Executable"/>
-    <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
-    <fullyQualifiedTypeName name="com.cognizant.influentia.accountms.entity.UserSocialAccounts"/>
     <fullyQualifiedTypeName name="com.cognizant.influentia.accountms.dto.UserSocialAccountsDTO"/>
     <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.repository.SubscriptionPlansRepo"/>
     <fullyQualifiedTypeName name="org.mockito.Mock"/>
-    <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.repository.UserSubscriptionsRepo"/>
     <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.repository.SubscriptionCancellationsRepo"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="org.modelmapper.ModelMapper"/>
@@ -47,17 +39,25 @@
     <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.service.SubscriptionMSService"/>
     <fullyQualifiedTypeName name="org.mockito.InjectMocks"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
-    <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.entity.SubscriptionPlans"/>
     <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.dto.SubscriptionPlansDTO"/>
     <fullyQualifiedTypeName name="org.junit.jupiter.api.BeforeEach"/>
     <fullyQualifiedTypeName name="org.mockito.MockitoAnnotations"/>
     <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.dto.NewUserSubscriptionDTO"/>
     <fullyQualifiedTypeName name="java.util.Optional"/>
-    <fullyQualifiedTypeName name="java.sql.Date"/>
-    <fullyQualifiedTypeName name="java.time.LocalDate"/>
-    <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.dto.RenewUserSubscriptionDTO"/>
     <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.entity.SubscriptionCancellations"/>
     <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.dto.CancelUserSubscriptionDTO"/>
-    <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.entity.UserSubscriptions"/>
     <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.dto.UserSubscriptionsDTO"/>
+    <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.dto.RenewUserSubscriptionDTO"/>
+    <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.entity.SubscriptionPlans"/>
+    <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.security.SecurityProperties.User"/>
+    <fullyQualifiedTypeName name="jakarta.validation.constraints.Pattern"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="com.cognizant.influentia.accountms.entity.SocialAccountTracker"/>
+    <fullyQualifiedTypeName name="com.cognizant.influentia.accountms.entity.UserSocialAccounts"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.entity.UserSubscriptions"/>
+    <fullyQualifiedTypeName name="com.cognizant.influentia.subscriptionms.repository.UserSubscriptionsRepo"/>
+    <fullyQualifiedTypeName name="lombok.extern.slf4j.Slf4j"/>
+    <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
+    <fullyQualifiedTypeName name="com.cognizant.influentia.exception.ResourceQuotaExceededException"/>
 </qualifiedTypeNameHistroy>
