@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
+//@EnableAutoConfiguration(exclude = WebMvcAutoConfiguration.class)
 public class InfluentiaApplication {
 
 	public static void main(String[] args) {
@@ -20,7 +21,7 @@ public class InfluentiaApplication {
     }
 	
 	@Bean
-	public PasswordEncoder getPasswordEncoder() {
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 }

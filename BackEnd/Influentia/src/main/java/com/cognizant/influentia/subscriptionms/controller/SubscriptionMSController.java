@@ -27,19 +27,19 @@ public class SubscriptionMSController {
 	@Autowired
 	SubscriptionMSService subscriptionMSService;
 
-	@GetMapping("/plan")
+	@GetMapping("/list-plans")
 	public ResponseEntity<List<SubscriptionPlansDTO>> fetchSubscriptionPlans() {
 		log.info("Successfully fetched all the available Subscription Plans");
 		return new ResponseEntity<>(this.subscriptionMSService.getSubscriptionPlans(), HttpStatus.FOUND);
 	}
 	
-	@PostMapping("/purchase")
+	@PostMapping("/plans/purchase")
 	public ResponseEntity<Void> newUserSubscription(@RequestBody @Valid NewUserSubscriptionDTO newSubscription) {
 		this.subscriptionMSService.purchaseSubscription(newSubscription);
 		return ResponseEntity.ok().build();
 	}
 	
-	@PutMapping("/{subscriptionid}/renew")
+	@PutMapping("/plans/{subscriptionid}/renew")
 	public ResponseEntity<Void> renewUserSubscription(@PathVariable("subscriptionid") int subscriptionID, @RequestBody @Valid RenewUserSubscriptionDTO renewSubscription) {
 		try {
 			this.subscriptionMSService.renewSubscription(subscriptionID, renewSubscription);
@@ -51,7 +51,7 @@ public class SubscriptionMSController {
 		}
 	}
 	
-	@PutMapping("/{subscriptionid}/cancel")
+	@PutMapping("/plans/{subscriptionid}/cancel")
 	public ResponseEntity<Void> cancelUserSubscription(@PathVariable("subscriptionid") int subscriptionID, @RequestBody @Valid CancelUserSubscriptionDTO cancelSubscription) {
 		try {
 			this.subscriptionMSService.cancelSubscription(subscriptionID, cancelSubscription);
@@ -63,7 +63,7 @@ public class SubscriptionMSController {
 		}
 	}
 	
-	@GetMapping("/{username}")
+	@GetMapping("/plans/{username}")
 	public ResponseEntity<UserSubscriptionsDTO> getSubscriptionByUser(@PathVariable("username") String username) {
 		try {
 			return new ResponseEntity<>(this.subscriptionMSService.getSubscriptionPlanByUsername(username), HttpStatus.FOUND);

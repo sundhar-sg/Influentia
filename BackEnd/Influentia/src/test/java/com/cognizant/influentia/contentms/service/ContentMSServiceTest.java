@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 
 import java.text.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -62,7 +61,7 @@ class ContentMSServiceTest {
 	@Test
 	void testAddNewPost() throws ParseException, ResourceQuotaExceededException {
 		UserPosts userPost = new UserPosts(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalTime.parse("00:00:00", dtfTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
-		UserPostsDTO userPostDTO = new UserPostsDTO(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalDateTime.parse("27-01-2024 00:00:00", dtfDateTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
+		UserPostsDTO userPostDTO = new UserPostsDTO(currentDate, true, "27-01-2024", "00:00", "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
 		when(this.upRepo.save(any())).thenReturn(userPost);
 		UserPosts serviceUP = this.cmService.addNewPost(userPostDTO);
 		assertEquals(serviceUP, userPost);

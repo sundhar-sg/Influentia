@@ -1,6 +1,8 @@
 package com.cognizant.influentia.contentms.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import org.modelmapper.ModelMapper;
@@ -45,12 +47,14 @@ public class ContentMSServiceImpl implements ContentMSService {
 	@Override
 	public UserPosts addNewPost(UserPostsDTO userPostDTO) throws ResourceQuotaExceededException {
 		String username = userPostDTO.getUsername();
+		userPostDTO.setPostedOn(new Date());
+		LocalDate publishedOnDate = LocalDate.parse(userPostDTO.getPublishedOnDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		UserSubscriptions subscriptionPlan = this.userSubscriptionsRepo.findSubscriptionByUsername(username);
 		if(subscriptionPlan == null) {
 			log.error("There is no subscription plan associated with the given username. First, Get a subscription plan instead");
 			throw new IllegalArgumentException("You haven't any active subscription for your account. Get a subscription plan instead :)");
 		}
-		int numberOfPosts = this.upRepo.findNumberOfPostsBasedOnUserName(username, userPostDTO.getPublishedOnDate().getMonthValue());
+		int numberOfPosts = this.upRepo.findNumberOfPostsBasedOnUserName(username, publishedOnDate.getMonthValue());
 		System.out.println("Number of Posts: " + String.valueOf(numberOfPosts));
 		if((numberOfPosts >= 5) && (subscriptionPlan.getPlanID().getPlanName().equalsIgnoreCase("Basic"))) {
 			log.error("You have reached the posts limit for your existing subscription. Wait till next month or upgrade your subscription");
@@ -59,9 +63,10 @@ public class ContentMSServiceImpl implements ContentMSService {
 			log.error("You have reached the posts limit for your existing subscription. Wait till next month for adding new posts");
 			throw new ResourceQuotaExceededException("You have reached the posts limit for your existing subscription. Wait till next month for adding new posts");
 		}
-		LocalDateTime publishedOnTimestamp = userPostDTO.getPublishedOnTimestamp();
-		userPostDTO.setPublishedOnTime(publishedOnTimestamp.toLocalTime());
+		LocalTime publishedOnTime = LocalTime.parse(userPostDTO.getPublishedOnTime(), DateTimeFormatter.ofPattern("HH:mm"));
 		UserPosts userPost = this.modelMapper.map(userPostDTO, UserPosts.class);
+		userPost.setPublishedOnDate(publishedOnDate);
+		userPost.setPublishedOnTime(publishedOnTime);
 		return upRepo.save(userPost);
 	}
 	

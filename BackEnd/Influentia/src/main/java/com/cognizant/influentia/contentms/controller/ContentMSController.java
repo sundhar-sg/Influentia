@@ -8,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.cognizant.influentia.contentms.dto.*;
-import com.cognizant.influentia.contentms.entity.*;
 import com.cognizant.influentia.contentms.service.*;
 import com.cognizant.influentia.exception.GlobalExceptionHandler;
 import com.cognizant.influentia.exception.ResourceQuotaExceededException;
@@ -39,12 +38,12 @@ public class ContentMSController {
 	}
 	
 	@PostMapping("/add")
-	public ResponseEntity<UserPosts> addNewUserPosts(@RequestBody @Valid UserPostsDTO userPostDTO) throws ResourceQuotaExceededException {
-		UserPosts createdPost = cmService.addNewPost(userPostDTO);
-		return new ResponseEntity<UserPosts>(createdPost, HttpStatus.OK);
+	public ResponseEntity<?> addNewUserPosts(@RequestBody @Valid UserPostsDTO userPostDTO) throws ResourceQuotaExceededException {
+		cmService.addNewPost(userPostDTO);
+		return new ResponseEntity<String>("Successfully Created the Post", HttpStatus.OK);
 	}
 	
-	@GetMapping("/{username}")
+	@GetMapping("/{username}/all-posts")
 	public ResponseEntity<List<UserPostsDTO>> getUserPostsOfUser(@PathVariable("username") String username) {
 		try {
 			return new ResponseEntity<List<UserPostsDTO>>(cmService.getUserPostsByUserName(username), HttpStatus.FOUND);
@@ -63,7 +62,7 @@ public class ContentMSController {
 		throw new NoSuchElementException("Failed in cancelling the user post with username: " +username+ " and ID: " +id);
 	}
 	
-	@GetMapping("/analytics")
+	@GetMapping("/post-analytics")
 	public ResponseEntity<List<UserPostsDTO>> getUserPostsBasedOnAnalytics(@RequestParam Map<String, String> parameterList) {
 		List<UserPostsDTO> finalResult = cmService.filteredUserPosts(parameterList);
 		if(finalResult.size() >= 1)
