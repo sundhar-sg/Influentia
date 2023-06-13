@@ -14,21 +14,24 @@ import lombok.*;
 @NoArgsConstructor
 public class UserPostsDTO {
 	
+	@NotNull
+	private int id;
+	
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "IST")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "IST")
 	private Date postedOn;
 	
 	@NotNull
 	@JsonProperty
 	private boolean isScheduledPost;
 	
-    @NotNull
-    @NotEmpty
-	private String publishedOnDate;
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "IST")
+	private Date publishedOnDate;
 	
-    @NotEmpty
-    @NotNull
-	private String publishedOnTime;
+	@Temporal(TemporalType.TIME)
+	@JsonFormat(pattern = "HH:mm", timezone = "IST")
+	private Date publishedOnTime;
 	
 	@NotEmpty
 	@Pattern(regexp = "^(?i)(Image|Video|Text)$", message = "The Post Type must always be in any one of Image, Video and Text")
@@ -50,7 +53,7 @@ public class UserPostsDTO {
 	@Pattern(regexp = "^(?i)(Facebook|LinkedIn|Instagram|YouTube|Twitter)$", message = "The Social Network type must be any one of Facebook, Instagram, LinkedIn, YouTube and Twitter")
 	private String socialNetworkType;
 	
-	public UserPostsDTO(Date postedOn, boolean isScheduledPost, String publishedOnDate, String publishedOnTime, String postType, String postContentText, String postAttachmentURL, String postStatus, String username, String socialNetworkType) {
+	public UserPostsDTO(Date postedOn, boolean isScheduledPost, Date publishedOnDate, Date publishedOnTime, String postType, String postContentText, String postAttachmentURL, String postStatus, String username, String socialNetworkType) {
 		super();
 		this.postedOn = postedOn;
 		this.isScheduledPost = isScheduledPost;

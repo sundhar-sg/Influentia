@@ -1,8 +1,9 @@
 package com.cognizant.influentia.contentms.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.*;
 
 import org.modelmapper.ModelMapper;
@@ -48,7 +49,7 @@ public class ContentMSServiceImpl implements ContentMSService {
 	public UserPosts addNewPost(UserPostsDTO userPostDTO) throws ResourceQuotaExceededException {
 		String username = userPostDTO.getUsername();
 		userPostDTO.setPostedOn(new Date());
-		LocalDate publishedOnDate = LocalDate.parse(userPostDTO.getPublishedOnDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate publishedOnDate = userPostDTO.getPublishedOnDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		UserSubscriptions subscriptionPlan = this.userSubscriptionsRepo.findSubscriptionByUsername(username);
 		if(subscriptionPlan == null) {
 			log.error("There is no subscription plan associated with the given username. First, Get a subscription plan instead");
@@ -63,7 +64,7 @@ public class ContentMSServiceImpl implements ContentMSService {
 			log.error("You have reached the posts limit for your existing subscription. Wait till next month for adding new posts");
 			throw new ResourceQuotaExceededException("You have reached the posts limit for your existing subscription. Wait till next month for adding new posts");
 		}
-		LocalTime publishedOnTime = LocalTime.parse(userPostDTO.getPublishedOnTime(), DateTimeFormatter.ofPattern("HH:mm"));
+		LocalTime publishedOnTime = LocalDateTime.ofInstant(userPostDTO.getPublishedOnTime().toInstant(), ZoneId.systemDefault()).toLocalTime();
 		UserPosts userPost = this.modelMapper.map(userPostDTO, UserPosts.class);
 		userPost.setPublishedOnDate(publishedOnDate);
 		userPost.setPublishedOnTime(publishedOnTime);
@@ -73,40 +74,6 @@ public class ContentMSServiceImpl implements ContentMSService {
 	@Override
 	public int cancelScheduledPost(String username, int id) {
 		return upRepo.cancelScheduledPost(username, id);
-	}
-	
-	@Override
-	public List<UserPostsDTO> filteredUserPosts(Map<String, String> insightParameters) {
-		List<UserPosts> finalResult = null;
-		if(insightParameters.get("insightType").equalsIgnoreCase("month")) 
-			finalResult = upRepo.findMonthlyInsightsByPublishedOnDate(insightParameters.get("month"), Integer.parseInt(insightParameters.get("year")));
-		else if(insightParameters.get("insightType").equalsIgnoreCase("quarter")) {
-			switch(Integer.parseInt(insightParameters.get("quarterType"))) {
-				case 1: finalResult = upRepo.findQuarterlyInsightsByPublishedOnDate(1, 3, Integer.parseInt(insightParameters.get("year")));
-						break;
-				case 2: finalResult = upRepo.findQuarterlyInsightsByPublishedOnDate(4, 6, Integer.parseInt(insightParameters.get("year")));
-						break;
-				case 3: finalResult = upRepo.findQuarterlyInsightsByPublishedOnDate(7, 9, Integer.parseInt(insightParameters.get("year")));
-						break;
-				case 4: finalResult = upRepo.findQuarterlyInsightsByPublishedOnDate(10, 12, Integer.parseInt(insightParameters.get("year")));
-						break;
-			}
-		}
-		else if(insightParameters.get("insightType").equalsIgnoreCase("semiannual")) {
-			switch(Integer.parseInt(insightParameters.get("semiAnnualType"))) {
-				case 1: finalResult = upRepo.findHalfYearlyInsightsByPublishedOnDate(1, 6, Integer.parseInt(insightParameters.get("year")));
-						break;
-				case 2: finalResult = upRepo.findHalfYearlyInsightsByPublishedOnDate(7, 12, Integer.parseInt(insightParameters.get("year")));
-						break;
-			}
-		}
-		else if(insightParameters.get("insightType").equalsIgnoreCase("yearly")) 
-			finalResult = upRepo.findYearlyInsightsByPublishedOnDate(Integer.parseInt(insightParameters.get("year")));
-		List<UserPostsDTO> finalResultDTO = new ArrayList<>();
-		for(UserPosts userPost : finalResult) {
-			finalResultDTO.add(this.modelMapper.map(userPost, UserPostsDTO.class));
-		}
-		return finalResultDTO;
 	}
 	
 //	@Override
@@ -136,7 +103,11 @@ public class ContentMSServiceImpl implements ContentMSService {
 		List<UserPosts> initialResult = upRepo.findAllUserPostsByUserName(username);
 		List<UserPostsDTO> finalResult = new ArrayList<>();
 		for(UserPosts userPost : initialResult) {
-			finalResult.add(this.modelMapper.map(userPost, UserPostsDTO.class));
+			UserPostsDTO userPostDTO = this.modelMapper.map(userPost, UserPostsDTO.class);
+			userPostDTO.setPublishedOnDate(Date.from(userPost.getPublishedOnDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			userPostDTO.setPublishedOnTime(Date.from(LocalDateTime.of(userPost.getPublishedOnDate(), userPost.getPublishedOnTime()).atZone(ZoneId.systemDefault()).toInstant()));
+			log.debug("Mapped UserPostDTO = {}", userPostDTO);
+			finalResult.add(userPostDTO);
 		}
 		return finalResult;
 	}
@@ -147,5 +118,53 @@ public class ContentMSServiceImpl implements ContentMSService {
 		UserPosts resultUserPost = upRepo.findById(id).get();
 		UserPostsDTO finalResult = this.modelMapper.map(resultUserPost, UserPostsDTO.class);
 		return finalResult;
+	}
+
+	@Override
+	public List<String> fetchDistinctSocialAccountsofUser(String username) {
+		// TODO Auto-generated method stub
+		return upRepo.numberOfUniqueAccountsForUser(username);
+	}
+
+	@Override
+	public int postAnalyticsBasedOnMonth(String username, String month, int year, String socialAccountType) {
+		// TODO Auto-generated method stub
+		return upRepo.findMonthlyInsightsByPublishedOnDate(month, year, socialAccountType, username);
+	}
+
+	@Override
+	public int postAnalyticsBasedOnQuarter(String username, int year, String quarterType, String socialAccountType) {
+		// TODO Auto-generated method stub
+		if(quarterType.equalsIgnoreCase("1st Quarter"))
+			return upRepo.findQuarterlyInsightsByPublishedOnDate(1, 3, year, socialAccountType, username);
+		else if(quarterType.equalsIgnoreCase("2nd Quarter"))
+			return upRepo.findQuarterlyInsightsByPublishedOnDate(4, 6, year, socialAccountType, username);
+		else if(quarterType.equalsIgnoreCase("3rd Quarter"))
+			return upRepo.findQuarterlyInsightsByPublishedOnDate(7, 9, year, socialAccountType, username);
+		else if(quarterType.equalsIgnoreCase("4th Quarter"))
+			return upRepo.findQuarterlyInsightsByPublishedOnDate(10, 12, year, socialAccountType, username);
+		return 0;
+	}
+
+	@Override
+	public int postAnalyticsBasedOnSemiAnnual(String username, int year, String semiAnnualType, String socialAccountType) {
+		// TODO Auto-generated method stub
+		if(semiAnnualType.equalsIgnoreCase("1st Semi Annual"))
+			return upRepo.findHalfYearlyInsightsByPublishedOnDate(1, 6, year, socialAccountType, username);
+		else if(semiAnnualType.equalsIgnoreCase("2nd Semi Annual"))
+			return upRepo.findHalfYearlyInsightsByPublishedOnDate(7, 12, year, socialAccountType, username);
+		return 0;
+	}
+
+	@Override
+	public int postAnalyticsBasedOnYear(String username, int year, String socialAccountType) {
+		// TODO Auto-generated method stub
+		return upRepo.findYearlyInsightsByPublishedOnDate(year, socialAccountType, username);
+	}
+
+	@Override
+	public int postAnalyticsBasedOnCustomDates(Date startDate, Date endDate, String socialAccountType, String username) {
+		// TODO Auto-generated method stub
+		return upRepo.findCustomInsightsByPublishedOnDate(username, startDate, endDate, socialAccountType);
 	}
 }

@@ -2,12 +2,14 @@ package com.cognizant.influentia.security.jwtconfig;
 
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
+import java.util.*;
 
 import javax.crypto.KeyGenerator;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.cognizant.influentia.security.entity.Role;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -33,12 +35,13 @@ public class JwtUtils {
 		return Keys.hmacShaKeyFor(secret.getBytes());
 	}
 	
-	public String generateToken(String username, String fullName) throws InvalidKeyException, NoSuchAlgorithmException {
+	public String generateToken(String username, String fullName, Collection<Role> list) throws InvalidKeyException, NoSuchAlgorithmException {
 		Date date = new Date();
 		Date expiryDate = new Date(date.getTime() + expirationMS);
 		
 		return Jwts.builder()
 				.claim("fullName", fullName)
+				.claim("assignedRoles", list)
 				.setSubject(username)
 				.setIssuedAt(date)
 				.setExpiration(expiryDate)
@@ -62,6 +65,15 @@ public class JwtUtils {
 				.parseClaimsJws(token)
 				.getBody()
 				.get("fullName", String.class);
+	}
+	
+	public List<?> extractAssignedRoles(String token) throws SignatureException, ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, IllegalArgumentException, NoSuchAlgorithmException {
+		return Jwts.parserBuilder()
+				.setSigningKey(getKey())
+				.build()
+				.parseClaimsJws(token)
+				.getBody()
+				.get("assignedRoles", List.class);
 	}
 	
 	public boolean validateToken(String token, UserDetails userDetails) throws SignatureException, ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, IllegalArgumentException, NoSuchAlgorithmException {

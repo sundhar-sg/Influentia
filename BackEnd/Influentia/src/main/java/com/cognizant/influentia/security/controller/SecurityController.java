@@ -49,7 +49,7 @@ public class SecurityController {
 	@Autowired
 	private JwtUtils jwtUtils;
 
-	@PostMapping("/login")
+	@PostMapping(value = "/login")
 	public ResponseEntity<?> login(@RequestBody @Valid UserDTO userDTO) throws InvalidKeyException, NoSuchAlgorithmException {
 		try {
 			authManager.authenticate(
@@ -57,7 +57,7 @@ public class SecurityController {
 			);
 			UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getUsername());
 			User currentUser = this.userService.findByUsername(userDTO.getUsername());
-			String token = jwtUtils.generateToken(userDetails.getUsername(), (currentUser.getFirstName()+ " " +currentUser.getLastName()));
+			String token = jwtUtils.generateToken(userDetails.getUsername(), (currentUser.getFirstName()+ " " +currentUser.getLastName()), currentUser.getRoles());
 			return ResponseEntity.ok(new JwtResponse(token));
 		} catch (AuthenticationException ex) {
 			log.error("Invalid Username or Password entered");

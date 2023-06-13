@@ -43,15 +43,15 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(configurer -> 
 				configurer
-				.requestMatchers(HttpMethod.GET, "/api/content/**").hasRole("User")
-				.requestMatchers(HttpMethod.POST, "/api/content/**").hasRole("User")
-				.requestMatchers(HttpMethod.PUT, "/api/content/**").hasRole("User")
-				.requestMatchers(HttpMethod.GET, "/api/acount/**").hasRole("User")
-				.requestMatchers(HttpMethod.POST, "/api/account/**").hasRole("User")
-				.requestMatchers(HttpMethod.PUT, "/api/account/**").hasRole("User")
-				.requestMatchers(HttpMethod.GET, "/api/subscription/**").hasRole("User")
-				.requestMatchers(HttpMethod.POST, "/api/subscription/**").hasRole("User")
-				.requestMatchers(HttpMethod.PUT, "/api/subscription/**").hasRole("User")
+//				.requestMatchers(HttpMethod.GET, "/api/content/**").hasRole("User")
+//				.requestMatchers(HttpMethod.POST, "/api/content/**").hasRole("User")
+//				.requestMatchers(HttpMethod.PUT, "/api/content/**").hasRole("User")
+//				.requestMatchers(HttpMethod.GET, "/api/acount/**").hasRole("User")
+//				.requestMatchers(HttpMethod.POST, "/api/account/**").hasRole("User")
+//				.requestMatchers(HttpMethod.PUT, "/api/account/**").hasRole("User")
+//				.requestMatchers(HttpMethod.GET, "/api/subscription/**").hasRole("User")
+//				.requestMatchers(HttpMethod.POST, "/api/subscription/**").hasRole("User")
+//				.requestMatchers(HttpMethod.PUT, "/api/subscription/**").hasRole("User")
 				.requestMatchers("/**").permitAll()
 				.requestMatchers("/api/signup").permitAll()
 				.requestMatchers("/api/login").permitAll()
@@ -88,6 +88,7 @@ public class SecurityConfig {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.addAllowedOrigin("http://localhost:4200");
+		configuration.addAllowedOrigin("http://localhost:52427");
 		configuration.addAllowedMethod("*");
 		configuration.addAllowedHeader("Content-Type");
 		configuration.addAllowedHeader("Access-Control-Allow-Headers");

@@ -19,7 +19,17 @@ public interface ContentMSService {
 
 	int cancelScheduledPost(String username, int id);
 
-	List<UserPostsDTO> filteredUserPosts(Map<String, String> insightType);
+	List<String> fetchDistinctSocialAccountsofUser(String username);
+	
+	int postAnalyticsBasedOnMonth(String username, String month, int year, String socialAccountType);
+	
+	int postAnalyticsBasedOnQuarter(String username, int year, String quarterType, String socialAccountType);
+	
+	int postAnalyticsBasedOnSemiAnnual(String username, int year, String semiAnnualType, String socialAccountType);
+	
+	int postAnalyticsBasedOnYear(String username, int year, String socialAccountType);
+	
+	int postAnalyticsBasedOnCustomDates(Date startDate, Date endDate, String socialAccountType, String username);
 	
 	List<UserPostsDTO> getUserPostsByUserName(String username);
 
