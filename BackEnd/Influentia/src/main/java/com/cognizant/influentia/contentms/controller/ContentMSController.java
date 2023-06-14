@@ -69,55 +69,35 @@ public class ContentMSController {
 	public ResponseEntity<?> getRegisteredAccountsOfUser(@PathVariable("username") String username) {
 		List<String> finalResult = cmService.fetchDistinctSocialAccountsofUser(username);
 		if(finalResult.size() >= 1)
-			return ResponseEntity.status(HttpStatus.FOUND).body(finalResult);
+			return ResponseEntity.status(HttpStatus.OK).body(finalResult);
 		log.error("There are no social accounts registered for the logged in user");
 		throw new NoSuchElementException("There are no social accounts registered for the logged in user: " +username);
 	}
 	
-	@GetMapping("/post-analytics/monthly/{username}/{month}/{year}/{socialAccountType}")
-	public ResponseEntity<?> numberOfUserPostsBasedOnMonthlyInsights(@PathVariable("username") String username, @PathVariable("socialAccountType") String socialAccountType, @PathVariable("month") String month, @PathVariable("year") int year) {
-		int result = cmService.postAnalyticsBasedOnMonth(username, month, year, socialAccountType);
-		if(result >= 1)
-			return ResponseEntity.status(HttpStatus.FOUND).body(result);
-		log.error("There are no user posts found for the specified insights");
-		throw new NoSuchElementException("There are no user posts found for the specified insights");
+	@GetMapping("/post-analytics/monthly/{username}/{month}/{year}/{socialAccountType}/{postType}")
+	public ResponseEntity<?> numberOfUserPostsBasedOnMonthlyInsights(@PathVariable("username") String username, @PathVariable("socialAccountType") String socialAccountType, @PathVariable("month") String month, @PathVariable("year") int year, @PathVariable("postType") String postType) {
+		return ResponseEntity.status(HttpStatus.OK).body(cmService.postAnalyticsBasedOnMonth(username, month, year, socialAccountType, postType));
 	}
 	
-	@GetMapping("/post-analytics/quarterly/{username}/{quarterType}/{year}/{socialAccountType}")
-	public ResponseEntity<?> numberOfUserPostsBasedOnQuarterInsights(@PathVariable("username") String username, @PathVariable("quarterType") String quarterType, @PathVariable("year") int year, @PathVariable("socialAccountType") String socialAccountType) {
-		int result = cmService.postAnalyticsBasedOnQuarter(username, year, quarterType, socialAccountType);
-		if(result >= 1)
-			return ResponseEntity.status(HttpStatus.FOUND).body(result);
-		log.error("There are no user posts found for the specified insights");
-		throw new NoSuchElementException("There are no user posts found for the specified insights");
+	@GetMapping("/post-analytics/quarterly/{username}/{quarterType}/{year}/{socialAccountType}/{postType}")
+	public ResponseEntity<?> numberOfUserPostsBasedOnQuarterInsights(@PathVariable("username") String username, @PathVariable("quarterType") String quarterType, @PathVariable("year") int year, @PathVariable("socialAccountType") String socialAccountType, @PathVariable("postType") String postType) {
+		return ResponseEntity.status(HttpStatus.OK).body(cmService.postAnalyticsBasedOnQuarter(username, year, quarterType, socialAccountType, postType));
 	}
 	
-	@GetMapping("/post-analytics/half-yearly/{username}/{halfYearlyType}/{year}/{socialAccountType}")
-	public ResponseEntity<?> numberOfUserPostsBasedOnHalfYearlyInsights(@PathVariable("username") String username, @PathVariable("halfYearlyType") String halfYearlyType, @PathVariable("year") int year, @PathVariable("socialAccountType") String socialAccountType) {
-		int result = cmService.postAnalyticsBasedOnSemiAnnual(username, year, halfYearlyType, socialAccountType);
-		if(result >= 1)
-			return ResponseEntity.status(HttpStatus.FOUND).body(result);
-		log.error("There are no user posts found for the specified insights");
-		throw new NoSuchElementException("There are no user posts found for the specified insights");
+	@GetMapping("/post-analytics/half-yearly/{username}/{halfYearlyType}/{year}/{socialAccountType}/{postType}")
+	public ResponseEntity<?> numberOfUserPostsBasedOnHalfYearlyInsights(@PathVariable("username") String username, @PathVariable("halfYearlyType") String halfYearlyType, @PathVariable("year") int year, @PathVariable("socialAccountType") String socialAccountType, @PathVariable("postType") String postType) {
+		return ResponseEntity.status(HttpStatus.OK).body(cmService.postAnalyticsBasedOnSemiAnnual(username, year, halfYearlyType, socialAccountType, postType));
 	}
 	
-	@GetMapping("/post-analytics/yearly/{username}/{year}/{socialAccountType}")
-	public ResponseEntity<?> numberOfUserPostsBasedOnYearlyInsights(@PathVariable("username") String username, @PathVariable("year") int year, @PathVariable("socialAccountType") String socialAccountType) {
-		int result = cmService.postAnalyticsBasedOnYear(username, year, socialAccountType);
-		if(result >= 1)
-			return ResponseEntity.status(HttpStatus.FOUND).body(result);
-		log.error("There are no user posts found for the specified insights");
-		throw new NoSuchElementException("There are no user posts found for the specified insights");
+	@GetMapping("/post-analytics/yearly/{username}/{year}/{socialAccountType}/{postType}")
+	public ResponseEntity<?> numberOfUserPostsBasedOnYearlyInsights(@PathVariable("username") String username, @PathVariable("year") int year, @PathVariable("socialAccountType") String socialAccountType, @PathVariable("postType") String postType) {
+		return ResponseEntity.status(HttpStatus.OK).body(cmService.postAnalyticsBasedOnYear(username, year, socialAccountType, postType));
 	}
 	
-	@GetMapping("/post-analytics/custom/{username}/{startDate}/{endDate}/{socialAccountType}")
-	public ResponseEntity<?> numberOfUserPostsBasedOnCustomInsights(@PathVariable("username") String username, @PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate, @PathVariable("socialAccountType") String socialAccountType) {
+	@GetMapping("/post-analytics/custom/{username}/{startDate}/{endDate}/{socialAccountType}/{postType}")
+	public ResponseEntity<?> numberOfUserPostsBasedOnCustomInsights(@PathVariable("username") String username, @PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate, @PathVariable("socialAccountType") String socialAccountType, @PathVariable("postType") String postType) {
 		Date startDateConvert = Date.from(LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay(ZoneId.systemDefault()).toInstant());
 		Date endDateConvert = Date.from(LocalDate.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay(ZoneId.systemDefault()).toInstant());
-		int result = cmService.postAnalyticsBasedOnCustomDates(startDateConvert, endDateConvert, socialAccountType, username);
-		if(result >= 1) 
-			return ResponseEntity.status(HttpStatus.FOUND).body(result);
-		log.error("There are no user posts found for the specified insights");
-		throw new NoSuchElementException("There are no user posts found for the specified insights");
+		return ResponseEntity.status(HttpStatus.OK).body(cmService.postAnalyticsBasedOnCustomDates(startDateConvert, endDateConvert, socialAccountType, username, postType));
 	}
 }

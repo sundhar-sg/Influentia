@@ -21,15 +21,15 @@ public interface ContentMSService {
 
 	List<String> fetchDistinctSocialAccountsofUser(String username);
 	
-	int postAnalyticsBasedOnMonth(String username, String month, int year, String socialAccountType);
+	int postAnalyticsBasedOnMonth(String username, String month, int year, String socialAccountType, String postType);
 	
-	int postAnalyticsBasedOnQuarter(String username, int year, String quarterType, String socialAccountType);
+	int postAnalyticsBasedOnQuarter(String username, int year, String quarterType, String socialAccountType, String postType);
 	
-	int postAnalyticsBasedOnSemiAnnual(String username, int year, String semiAnnualType, String socialAccountType);
+	int postAnalyticsBasedOnSemiAnnual(String username, int year, String semiAnnualType, String socialAccountType, String postType);
 	
-	int postAnalyticsBasedOnYear(String username, int year, String socialAccountType);
+	int postAnalyticsBasedOnYear(String username, int year, String socialAccountType, String postType);
 	
-	int postAnalyticsBasedOnCustomDates(Date startDate, Date endDate, String socialAccountType, String username);
+	int postAnalyticsBasedOnCustomDates(Date startDate, Date endDate, String socialAccountType, String username, String postType);
 	
 	List<UserPostsDTO> getUserPostsByUserName(String username);
 

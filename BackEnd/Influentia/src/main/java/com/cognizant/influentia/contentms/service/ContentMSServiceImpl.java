@@ -127,44 +127,44 @@ public class ContentMSServiceImpl implements ContentMSService {
 	}
 
 	@Override
-	public int postAnalyticsBasedOnMonth(String username, String month, int year, String socialAccountType) {
+	public int postAnalyticsBasedOnMonth(String username, String month, int year, String socialAccountType, String postType) {
 		// TODO Auto-generated method stub
-		return upRepo.findMonthlyInsightsByPublishedOnDate(month, year, socialAccountType, username);
+		return upRepo.findMonthlyInsightsByPublishedOnDate(month, year, socialAccountType, username, postType);
 	}
 
 	@Override
-	public int postAnalyticsBasedOnQuarter(String username, int year, String quarterType, String socialAccountType) {
+	public int postAnalyticsBasedOnQuarter(String username, int year, String quarterType, String socialAccountType, String postType) {
 		// TODO Auto-generated method stub
 		if(quarterType.equalsIgnoreCase("1st Quarter"))
-			return upRepo.findQuarterlyInsightsByPublishedOnDate(1, 3, year, socialAccountType, username);
+			return upRepo.findQuarterlyInsightsByPublishedOnDate(1, 3, year, socialAccountType, username, postType);
 		else if(quarterType.equalsIgnoreCase("2nd Quarter"))
-			return upRepo.findQuarterlyInsightsByPublishedOnDate(4, 6, year, socialAccountType, username);
+			return upRepo.findQuarterlyInsightsByPublishedOnDate(4, 6, year, socialAccountType, username, postType);
 		else if(quarterType.equalsIgnoreCase("3rd Quarter"))
-			return upRepo.findQuarterlyInsightsByPublishedOnDate(7, 9, year, socialAccountType, username);
+			return upRepo.findQuarterlyInsightsByPublishedOnDate(7, 9, year, socialAccountType, username, postType);
 		else if(quarterType.equalsIgnoreCase("4th Quarter"))
-			return upRepo.findQuarterlyInsightsByPublishedOnDate(10, 12, year, socialAccountType, username);
+			return upRepo.findQuarterlyInsightsByPublishedOnDate(10, 12, year, socialAccountType, username, postType);
 		return 0;
 	}
 
 	@Override
-	public int postAnalyticsBasedOnSemiAnnual(String username, int year, String semiAnnualType, String socialAccountType) {
+	public int postAnalyticsBasedOnSemiAnnual(String username, int year, String semiAnnualType, String socialAccountType, String postType) {
 		// TODO Auto-generated method stub
 		if(semiAnnualType.equalsIgnoreCase("1st Semi Annual"))
-			return upRepo.findHalfYearlyInsightsByPublishedOnDate(1, 6, year, socialAccountType, username);
+			return upRepo.findHalfYearlyInsightsByPublishedOnDate(1, 6, year, socialAccountType, username, postType);
 		else if(semiAnnualType.equalsIgnoreCase("2nd Semi Annual"))
-			return upRepo.findHalfYearlyInsightsByPublishedOnDate(7, 12, year, socialAccountType, username);
+			return upRepo.findHalfYearlyInsightsByPublishedOnDate(7, 12, year, socialAccountType, username, postType);
 		return 0;
 	}
 
 	@Override
-	public int postAnalyticsBasedOnYear(String username, int year, String socialAccountType) {
+	public int postAnalyticsBasedOnYear(String username, int year, String socialAccountType, String postType) {
 		// TODO Auto-generated method stub
-		return upRepo.findYearlyInsightsByPublishedOnDate(year, socialAccountType, username);
+		return upRepo.findYearlyInsightsByPublishedOnDate(year, socialAccountType, username, postType);
 	}
 
 	@Override
-	public int postAnalyticsBasedOnCustomDates(Date startDate, Date endDate, String socialAccountType, String username) {
+	public int postAnalyticsBasedOnCustomDates(Date startDate, Date endDate, String socialAccountType, String username, String postType) {
 		// TODO Auto-generated method stub
-		return upRepo.findCustomInsightsByPublishedOnDate(username, startDate, endDate, socialAccountType);
+		return upRepo.findCustomInsightsByPublishedOnDate(username, startDate, endDate, socialAccountType, postType);
 	}
 }
