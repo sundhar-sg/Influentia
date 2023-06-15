@@ -46,6 +46,9 @@ class ContentMSServiceTest {
 	DateTimeFormatter dtfDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	DateTimeFormatter dtfTime = DateTimeFormatter.ofPattern("HH:mm:ss");
 	DateTimeFormatter dtfDateTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
 	@Test
 	void testGetPlan() {
@@ -61,7 +64,7 @@ class ContentMSServiceTest {
 	@Test
 	void testAddNewPost() throws ParseException, ResourceQuotaExceededException {
 		UserPosts userPost = new UserPosts(currentDate, true, LocalDate.parse("27-01-2024", dtfDate), LocalTime.parse("00:00:00", dtfTime), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
-		UserPostsDTO userPostDTO = new UserPostsDTO(currentDate, true, "27-01-2024", "00:00", "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
+		UserPostsDTO userPostDTO = new UserPostsDTO(currentDate, true, dateFormat.parse("2024-01-27"), timeFormat.parse("00:00"), "Video", "Wishing you a very happy birthday my mentor", "https://facebook.com/sundhar_sg/post/35378hjdbvs", "Scheduled", "sundhar_sg", "Facebook");
 		when(this.upRepo.save(any())).thenReturn(userPost);
 		UserPosts serviceUP = this.cmService.addNewPost(userPostDTO);
 		assertEquals(serviceUP, userPost);

@@ -56,13 +56,13 @@ public class ContentMSController {
 		}
 	}
 	
-	@PutMapping("/{Username}/cancel/{PostID}")
-	public ResponseEntity<String> cancelScheduledPost(@PathVariable("Username") String username, @PathVariable("PostID") int id) {
-		int numberofUpdations = cmService.cancelScheduledPost(username, id);
+	@PutMapping("/cancel-post")
+	public ResponseEntity<String> cancelScheduledPost(@RequestBody CancelDTO cancelData) {
+		int numberofUpdations = cmService.cancelScheduledPost(cancelData.getUsername(), cancelData.getPostID());
 		if(numberofUpdations > 0)
-			return new ResponseEntity<String>("Successfully cancelled a post :)", HttpStatus.OK);
-		log.error("Cancelling the user post is not possible as there is no posts with username: {} and post ID: {}", username, id);
-		throw new NoSuchElementException("Failed in cancelling the user post with username: " +username+ " and ID: " +id);
+			return ResponseEntity.status(HttpStatus.OK).body("Successfully cancelled a post :)");
+		log.error("Cancelling the user post is not possible as there is no posts with username: {} and post ID: {}", cancelData.getUsername(), cancelData.getPostID());
+		throw new NoSuchElementException("Failed in cancelling the user post with username: " +cancelData.getUsername()+ " and ID: " +cancelData.getPostID());
 	}
 	
 	@GetMapping("/post-analytics/{username}")
