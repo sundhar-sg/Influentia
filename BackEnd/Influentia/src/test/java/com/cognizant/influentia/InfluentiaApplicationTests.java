@@ -11,5 +11,4 @@ class InfluentiaApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

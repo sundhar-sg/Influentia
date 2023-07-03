@@ -9,11 +9,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.*;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,7 +39,13 @@ class ContentMSServiceTest {
 	@Mock
 	SubscriptionPlanLimitsRepository subsPLRepo;
 
-	private ModelMapper modelMapper = new ModelMapper();
+	@Mock
+	private ModelMapper modelMapper;
+	
+	@BeforeEach
+	void setup() {
+		MockitoAnnotations.openMocks(this);
+	}
 	
 	@InjectMocks
 	ContentMSServiceImpl cmService;
