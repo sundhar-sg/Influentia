@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+D:\Projects\Influentia_CMS\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+4051178486.index
+2525286007.index
+806708078.index
+2238975228.index
+2259598831.index
+2334814861.index

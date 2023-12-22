@@ -5,6 +5,8 @@ create database influentiadb_subscriptionms;
 
 create database influentiadb_accountms;
 
+create database influentiadb_securitycredentials;
+
 -- Using the necessary databases
 use influentiadb_contentms;
 

@@ -1,0 +1,4 @@
+INDEX VERSION 1.132+D:\Projects\Influentia_CMS\.metadata\.plugins\org.eclipse.jdt.core
+2334814861.index
+267638611.index
+1865797976.index

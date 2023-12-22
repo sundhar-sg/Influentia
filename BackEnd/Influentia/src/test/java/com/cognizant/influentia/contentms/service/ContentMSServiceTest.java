@@ -15,7 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.*;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -97,18 +97,18 @@ class ContentMSServiceTest {
 		List<UserPosts> userPosts = new ArrayList<>();
 		List<UserPostsDTO> filteredUserPostsByRepo = new ArrayList<>();
 		if(insightParameters.get("insightType").equalsIgnoreCase("month")) 
-			when(this.upRepo.findMonthlyInsightsByPublishedOnDate(any(String.class), any(Integer.class))).thenReturn(userPosts);
+			when(this.upRepo.findMonthlyInsightsByPublishedOnDate(any(String.class), any(Integer.class), any(String.class), any(String.class), any(String.class))).thenReturn(any(Integer.class));
 		else if(insightParameters.get("insightType").equalsIgnoreCase("quarter")) 
-			when(this.upRepo.findQuarterlyInsightsByPublishedOnDate(any(Integer.class), any(Integer.class), any(Integer.class))).thenReturn(userPosts);
+			when(this.upRepo.findQuarterlyInsightsByPublishedOnDate(any(Integer.class), any(Integer.class), any(Integer.class), any(String.class), any(String.class), any(String.class))).thenReturn(any(Integer.class));
 		else if(insightParameters.get("insightType").equalsIgnoreCase("semiannual"))
-			when(this.upRepo.findHalfYearlyInsightsByPublishedOnDate(any(Integer.class), any(Integer.class), any(Integer.class))).thenReturn(userPosts);
+			when(this.upRepo.findHalfYearlyInsightsByPublishedOnDate(any(Integer.class), any(Integer.class), any(Integer.class), any(String.class), any(String.class), any(String.class))).thenReturn(any(Integer.class));
 		else if(insightParameters.get("insightType").equalsIgnoreCase("yearly"))
-			when(this.upRepo.findYearlyInsightsByPublishedOnDate(any(Integer.class))).thenReturn(userPosts);
+			when(this.upRepo.findYearlyInsightsByPublishedOnDate(any(Integer.class), any(String.class), any(String.class), any(String.class))).thenReturn(any(Integer.class));
 		for(UserPosts userPost : userPosts) {
 			filteredUserPostsByRepo.add(modelMapper.map(userPost, UserPostsDTO.class));
 		}
-		List<UserPostsDTO> filteredUserPostsByService =  cmService.filteredUserPosts(insightParameters);
-		verify(this.upRepo).findMonthlyInsightsByPublishedOnDate("May", 2023);
+		int filteredUserPostsByService =  cmService.postAnalyticsBasedOnMonth("sundhar-sg", "May", 2023, "Instagram", "Image");
+		verify(this.upRepo).findMonthlyInsightsByPublishedOnDate("May", 2023, "Instagram", "sundhar-sg", "Image");
 		assertEquals(filteredUserPostsByRepo, filteredUserPostsByService);
 	}
 
