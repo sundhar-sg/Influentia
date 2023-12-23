@@ -15,12 +15,12 @@ public interface UserSubscriptionsRepo extends JpaRepository<UserSubscriptions, 
 
 	@Modifying(clearAutomatically = true)
 	@Transactional
-	@Query(value = "UPDATE UserSubscriptions SET subscriptionStatus = :Status WHERE id = :ID")
+	@Query(value = "UPDATE usersubscriptions SET subscriptionStatus = :Status WHERE id = :ID")
 	int UpdateSubscription(@Param("ID") int id, @Param("Status") String status);
 	
-	@Query(value = "SELECT * FROM UserSubscriptions WHERE userName = :userName", nativeQuery = true)
+	@Query(value = "SELECT * FROM usersubscriptions WHERE userName = :userName", nativeQuery = true)
 	UserSubscriptions findSubscriptionByUsername(@Param("userName") String userName);
 	
-	@Query(value = "SELECT * FROM UserSubscriptions WHERE planID = :planID", nativeQuery = true)
+	@Query(value = "SELECT * FROM usersubscriptions WHERE planID = :planID", nativeQuery = true)
 	List<UserSubscriptions> findUserSubscriptionsByPlanID(@Param("planID") int planID);
 }

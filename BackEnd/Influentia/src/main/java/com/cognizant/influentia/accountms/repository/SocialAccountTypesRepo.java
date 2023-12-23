@@ -9,6 +9,6 @@ import com.cognizant.influentia.accountms.entity.SocialAccountTypes;
 
 public interface SocialAccountTypesRepo extends JpaRepository<SocialAccountTypes, Integer> {
 
-	@Query(value = "SELECT * FROM SocialAccountTypes", nativeQuery = true)
+	@Query(value = "SELECT * FROM socialaccounttypes", nativeQuery = true)
 	List<SocialAccountTypes> findAllAccountTypes();
 }

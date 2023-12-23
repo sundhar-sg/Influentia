@@ -89,6 +89,8 @@ public class SecurityConfig {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.addAllowedOrigin("http://localhost:4200");
 		configuration.addAllowedOrigin("http://localhost:52427");
+		configuration.addAllowedOrigin("http://ec2-43-205-254-11.ap-south-1.compute.amazonaws.com");
+		configuration.addAllowedOrigin("http://43.205.254.11");
 		configuration.addAllowedMethod("*");
 		configuration.addAllowedHeader("Content-Type");
 		configuration.addAllowedHeader("Access-Control-Allow-Headers");

@@ -8,6 +8,6 @@ import com.cognizant.influentia.security.entity.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-	@Query(value = "SELECT * FROM Role WHERE name = :name", nativeQuery = true)
+	@Query(value = "SELECT * FROM role WHERE name = :name", nativeQuery = true)
 	public Role findRoleByName(@Param("name") String name);
 }
